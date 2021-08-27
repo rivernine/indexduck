@@ -14,7 +14,8 @@ repositories {
 
 dependencies {
 	implementation (
-		'org.springframework.boot:spring-boot-starter-web',				// Rest		
+		'org.springframework.boot:spring-boot-starter-web',				// Rest	
+		'org.springframework.boot:spring-boot-starter-batch',			// Batch		
 		'org.projectlombok:lombok',																// Lombok
 		'ch.qos.logback:logback-classic:1.2.3',										// Logback
 		'ch.qos.logback:logback-core:1.2.3',											// Logback
