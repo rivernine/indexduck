@@ -1,0 +1,41 @@
+CREATE TABLE stocks  (
+  date    date,
+  ticker  varchar(10),
+  name    varchar(255),
+  close   bigint,
+  volume  bigint,
+  insVol  bigint,
+  etcVol  bigint,
+  indVol  bigint,
+  forVol  bigint,
+  insAmt  bigint,
+  etcAmt  bigint,
+  indAmt  bigint,
+  forAmt  bigint,
+  primary key (ticker, date)
+) engine = InnoDB;
+
+CREATE TABLE last_3m  (
+  date        date,
+  ticker      varchar(10),
+  name        varchar(255),
+  close       bigint,
+  volume      bigint,
+  insVol      bigint,
+  etcVol      bigint,
+  indVol      bigint,
+  forVol      bigint,
+  insAmt      bigint,
+  etcAmt      bigint,
+  indAmt      bigint,
+  forAmt      bigint,
+  insVolCum   bigint,
+  etcVolCum   bigint,
+  indVolCum   bigint,
+  forVolCum   bigint,
+  insAmtCum   bigint,
+  etcAmtCum   bigint,
+  indAmtCum   bigint,
+  forAmtCum   bigint,
+  primary key (ticker, date)
+) engine = InnoDB;
