@@ -91,9 +91,10 @@ CREATE TABLE last_12m  (
 ) engine = InnoDB;
 
 CREATE TABLE correl(
-  ticker  varchar(10),
-  name    varchar(255),
-  period  varchar(10),
+  ticker      varchar(10),
+  name        varchar(255),
+  period      varchar(10),
+  cap         bigint,
   insVolCum   double,
   etcVolCum   double,
   indVolCum   double,
