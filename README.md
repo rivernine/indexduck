@@ -1,7 +1,7 @@
-# Stocks in site
+# Index duck
 
 ## Overview
-Welcome to `stocksin.site` 🎈
+Welcome to `indexduck.com` 🎈
 
 ## Architecture
 |Web|Server|
