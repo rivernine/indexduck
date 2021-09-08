@@ -1,18 +1,18 @@
-package com.stocksinsite.core.schedule.analysis;
+// package com.stocksinsite.core.schedule.analysis;
 
-import com.stocksinsite.core.schedule.analysis.impl.AnalysisImpl;
+// import com.stocksinsite.core.schedule.analysis.impl.AnalysisImpl;
 
-import org.springframework.stereotype.Component;
+// import org.springframework.stereotype.Component;
 
-import lombok.RequiredArgsConstructor;
+// import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
-@Component
-public class AnalysisJob {
+// @RequiredArgsConstructor
+// @Component
+// public class AnalysisJob {
   
-  private final AnalysisImpl analysisImpl;
+//   private final AnalysisImpl analysisImpl;
 
-  public void analysisJob() {
-    analysisImpl.analysisJob();
-  }
-}
+//   public void analysisJob() {
+//     analysisImpl.analysisJob();
+//   }
+// }

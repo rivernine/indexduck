@@ -1,11 +1,10 @@
 package com.stocksinsite.core.service;
 
-import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.Map;
 
-@Service
-public class CoreService {
-
-  public String print_hello(){
-    return "hello";
-  }
+public interface CoreService {
+  public String print_hello();  
+  public List<Map<String, Object>> getCorrels();
+  public List<Map<String, Object>> getCorrel(String ticker);
 }
