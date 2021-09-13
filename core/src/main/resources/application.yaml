@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    hikari:
+      driverClassName: org.mariadb.jdbc.Driver 
+      jdbc-url: jdbc:mariadb://192.168.56.100:3306/INDEX_DUCK
+      username: root
+      password: test
+
+mybatis:
+  type-aliases-package: kr.co.fastcampus.eatgo
+  mapper-locations: mybatis/mapper/*.xml

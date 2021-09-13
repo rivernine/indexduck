@@ -1,7 +1,7 @@
-# Stocks in site
+# Index duck
 
 ## Overview
-Welcome to `stocksin.site` 🎈
+Welcome to `indexduck.com` 🎈
 
 ## Architecture
 |Web|Server|
@@ -29,4 +29,33 @@ Welcome to `stocksin.site` 🎈
     - fina: 금융투자(finance)
     - b/s/nb: 매수/매도/순매수(buy/sell/netbuy)
 
+
+## mysql
+- encoding.cnf
+```cnf
+[client]
+default-character-set=utf8
+
+[mysqld]
+character-set-server=utf8
+collation-server=utf8_general_ci
+init_connect=SET collation_connection=utf8_general_ci
+init_connect=SET NAMES utf8
+
+[mysql]
+default-character-set=utf8
 ```
+
+- packet.cnf
+```cnf
+[mysqld]
+max_allowed_packet=32M
+```
+
+- timeout.cnf
+```cnf
+[mysqld]
+interactive_timeout=10
+wait_timeout=10
+```
+
