@@ -24,7 +24,7 @@ export default function CoefficientChartGrid(props) {
   return (
     <Grid item xs={12} md={6} lg={4}>
       <Paper className={classes.paper}>
-        <Title>{props.company}</Title>
+        <Title>{props.name}</Title>
         <StarPin />
         <CoefficientChart data={props.data}/>
       </Paper>

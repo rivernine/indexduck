@@ -11,7 +11,7 @@
     (
       SELECT * FROM
       (
-        (SELECT ticker FROM correl WHERE period = 'last_1m' ORDER BY cap DESC LIMIT 10 OFFSET ${offset}) AS tmp
+        (SELECT ticker FROM correl WHERE period = 'last_1m' ORDER BY cap DESC LIMIT 100 OFFSET ${offset}) AS tmp
       )
     )
   </select>

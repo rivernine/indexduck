@@ -10,68 +10,123 @@ import Grid from '@material-ui/core/Grid';
 //   }
 // }));
 
-function createData (time, closeVal) {
-  return { time, closeVal }
+function createData (date, close, indVolCum, insVolCum, forVolCum, etcVolCum) {
+  return { date, close, indVolCum, insVolCum, forVolCum, etcVolCum }
 }
 
 class CoefficientChartGridContainer extends React.Component {
-  state = {
-    starList: [],
-    list: [
-      {
-        id: 0,
-        company: "삼성전자",
-        data: [
-          createData("2021-07-30", 78500),
-          createData("2021-08-02", 79300),
-          createData("2021-08-03", 81400),
-          createData("2021-08-04", 82900),
-          createData("2021-08-05", 82100),
-          createData("2021-08-06", 81500),
-          createData("2021-08-09", 81500),
-          createData("2021-08-10", 80200),
-          createData("2021-08-11", 78500),
-          createData("2021-08-12", 77000),
-          createData("2021-08-13", 74400),
-          createData("2021-08-17", 74200),
-          createData("2021-08-18", 73900),
-          createData("2021-08-19", 73100),
-          createData("2021-08-20", 72700),
-          createData("2021-08-23", 73300),
-          createData("2021-08-24", 75600),
-          createData("2021-08-25", 75700),
-          createData("2021-08-26", 74600),
-          createData("2021-08-27", 74300)
-        ]
-      },
-      {
-        id: 1,
-        company: "SK하이닉스",
-        data: [
-          createData("2021-07-30", 112500),
-          createData("2021-08-02", 116000),
-          createData("2021-08-03", 120000),
-          createData("2021-08-04", 121000),
-          createData("2021-08-05", 120000),
-          createData("2021-08-06", 118000),
-          createData("2021-08-09", 116000),
-          createData("2021-08-10", 112500),
-          createData("2021-08-11", 105500),
-          createData("2021-08-12", 100500),
-          createData("2021-08-13", 101500),
-          createData("2021-08-17", 101500),
-          createData("2021-08-18", 104000),
-          createData("2021-08-19", 102500),
-          createData("2021-08-20", 102500),
-          createData("2021-08-23", 103000),
-          createData("2021-08-24", 105000),
-          createData("2021-08-25", 103500),
-          createData("2021-08-26", 104000),
-          createData("2021-08-27", 103500)  
-        ]
-      }
-    ]
+  constructor(props) {
+    super(props);
+    this.state = {
+      list: [],
+      starList: [],
+      isLoaded: false,
+    };
   }
+
+  componentDidMount() {
+    fetch('/getCorrels?market="kospi"&offset=0')
+      .then(res => res.json())
+      // .then(json => console.log(json))
+      .then(json => {
+        var id = 0;
+        var holder = {
+          id: -1,
+          name: "null",
+          data: [],
+        };
+        var result = [];
+        for (const item of json) {
+          // first company
+          if (holder.name === "null") {
+            holder.id = id;
+            holder.name = item.name;
+            holder.data.push(
+              createData(item.date, item.close, item.indVolCum, item.insVolCum, item.forVolCum, item.etcVolCum)
+            )
+          // same company
+          } else if (holder.name === item.name) {
+            holder.data.push(
+              createData(item.date, item.close, item.indVolCum, item.insVolCum, item.forVolCum, item.etcVolCum)
+            )
+          // different company
+          } else if (holder.name !== item.name) {
+            result.push(holder);
+            id ++;
+            holder = {
+              id: id,
+              name: item.name,
+              data: [],
+            };
+          } 
+        }
+        // push last holder
+        result.push(holder);
+        console.log(result);
+        this.setState({
+          isLoaded: true,
+          list: result
+        });
+      });
+  }
+
+  // state = {
+  //   starList: [],
+  //   list: [
+  //     {
+  //       id: 0,
+  //       company: "삼성전자",
+  //       data: [
+  //         createData("2021-07-30", 78500),
+  //         createData("2021-08-02", 79300),
+  //         createData("2021-08-03", 81400),
+  //         createData("2021-08-04", 82900),
+  //         createData("2021-08-05", 82100),
+  //         createData("2021-08-06", 81500),
+  //         createData("2021-08-09", 81500),
+  //         createData("2021-08-10", 80200),
+  //         createData("2021-08-11", 78500),
+  //         createData("2021-08-12", 77000),
+  //         createData("2021-08-13", 74400),
+  //         createData("2021-08-17", 74200),
+  //         createData("2021-08-18", 73900),
+  //         createData("2021-08-19", 73100),
+  //         createData("2021-08-20", 72700),
+  //         createData("2021-08-23", 73300),
+  //         createData("2021-08-24", 75600),
+  //         createData("2021-08-25", 75700),
+  //         createData("2021-08-26", 74600),
+  //         createData("2021-08-27", 74300)
+  //       ]
+  //     },
+  //     {
+  //       id: 1,
+  //       company: "SK하이닉스",
+  //       data: [
+  //         createData("2021-07-30", 112500),
+  //         createData("2021-08-02", 116000),
+  //         createData("2021-08-03", 120000),
+  //         createData("2021-08-04", 121000),
+  //         createData("2021-08-05", 120000),
+  //         createData("2021-08-06", 118000),
+  //         createData("2021-08-09", 116000),
+  //         createData("2021-08-10", 112500),
+  //         createData("2021-08-11", 105500),
+  //         createData("2021-08-12", 100500),
+  //         createData("2021-08-13", 101500),
+  //         createData("2021-08-17", 101500),
+  //         createData("2021-08-18", 104000),
+  //         createData("2021-08-19", 102500),
+  //         createData("2021-08-20", 102500),
+  //         createData("2021-08-23", 103000),
+  //         createData("2021-08-24", 105000),
+  //         createData("2021-08-25", 103500),
+  //         createData("2021-08-26", 104000),
+  //         createData("2021-08-27", 103500)  
+  //       ]
+  //     }
+  //   ]
+  // }
 
   // handleStarDisable = 
   
@@ -94,23 +149,26 @@ class CoefficientChartGridContainer extends React.Component {
 
 
   render() {
-    const { list } = this.state;
+    const { list, starList, isLoaded } = this.state;
     const gridList = list.map(
       stock => (
         <CoefficientChartGrid
           key={stock.id}
-          company={stock.company}
+          name={stock.name}
           data={stock.data}
         />
       )
     );
 
-    return (
-      <Grid container spacing={3}>
-        {gridList}
-        {gridList}
-      </Grid>
-    )
+    if (!isLoaded) {
+      return <div>Loading...</div>;
+    } else {
+      return (
+        <Grid container spacing={3}>
+          {gridList}
+        </Grid>
+      );
+    }
   }
 }
 

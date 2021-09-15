@@ -19,7 +19,7 @@ export default function CoefficientChart(props) {
             left: 24,
           }}
         >
-          <XAxis dataKey="time" stroke={theme.palette.text.secondary} tick={{fontSize: 12, fill: theme.palette.text.secondary}}/>
+          <XAxis dataKey="date" stroke={theme.palette.text.secondary} tick={{fontSize: 12, fill: theme.palette.text.secondary}}/>
           <YAxis stroke={theme.palette.text.secondary} width={1} tick={false} domain={['dataMin - 1000', 'dataMax + 1000']}>
             {/* <Label
               angle={270}
@@ -30,7 +30,11 @@ export default function CoefficientChart(props) {
             </Label> */}
           </YAxis>
           {/* <Line type="monotone" dataKey="amount" stroke={theme.palette.primary.main} dot={false} /> */}
-          <Line type="monotone" dataKey="closeVal" stroke="#8884d8" dot={false} />
+          <Line type="monotone" dataKey="close" stroke="#DDDDDD" dot={false} /> {/* white */} 
+          <Line type="monotone" dataKey="indVolCum" stroke="#20639B" dot={false} /> {/* blue */}
+          <Line type="monotone" dataKey="insVolCum" stroke="#3CAEA3" dot={false} /> {/* green */}
+          <Line type="monotone" dataKey="forVolCum" stroke="#F6D55C" dot={false} /> {/* yellow */}
+          <Line type="monotone" dataKey="etcVolCum" stroke="#ED553B" dot={false} /> {/* red */} 
           {/* <Line type="monotone" dataKey="amount2" stroke="#82ca9d" dot={false} /> */}
         </LineChart>
       </ResponsiveContainer>
