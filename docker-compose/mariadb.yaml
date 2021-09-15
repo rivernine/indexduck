@@ -8,7 +8,7 @@ services:
     ports: 
       - "3306:3306" 
     volumes: 
-      - ~/docker/mariadb/etc/mysql/conf.d:/etc/mysql/conf.d:ro 
+      - ~/docker/mariadb/etc/mysql/conf.d:/etc/mysql/conf.d 
       - ~/docker/mariadb/var/lib/mysql:/var/lib/mysql 
       - ~/docker/mariadb/var/log/maria:/var/log/maria 
     environment: 

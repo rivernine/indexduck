@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,12 +26,14 @@ public class CoreController {
   }
 
   @GetMapping("/getCorrels")
-  public List<Map<String, Object>> getCorrels(){
-    return coreService.getCorrels();
+  public List<Map<String, Object>> getCorrels(@RequestParam String market, @RequestParam(defaultValue="0") String offset ) {
+
+    return coreService.getCorrels(market, offset);
+
   }
   
   @GetMapping("/getCorrel")
-  public List<Map<String, Object>> getCorrel(@RequestParam String ticker){
+  public Map<String, Object> getCorrel(@RequestParam String ticker){
     return coreService.getCorrel(ticker);
   }
   

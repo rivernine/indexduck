@@ -5,9 +5,17 @@
 
 <mapper namespace="com.stocksinsite.core.repository.CorrelRepository">
   <select id="getCorrels" resultType="java.util.HashMap">
-    SELECT * FROM correl;
+    SELECT date, close, name, insVolCum, etcVolCum, indVolCum, forVolCum
+    FROM last_6m
+    WHERE ticker IN 
+    (
+      SELECT * FROM
+      (
+        (SELECT ticker FROM correl WHERE period = 'last_1m' ORDER BY cap DESC LIMIT 10 OFFSET ${offset}) AS tmp
+      )
+    )
   </select>
   <select id="getCorrel" resultType="java.util.HashMap">
-    SELECT * FROM correl WHERE ticker=${ticker};
+    SELECT date, name, close, insVolCum, etcVolCum, indVolCum, forVolCum FROM last_6m WHERE ticker=${ticker};
   </select>
 </mapper>
