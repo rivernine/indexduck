@@ -5,4 +5,7 @@
   <mappers>
     <mapper resource="CorrelMapper.xml"/>
   </mappers>
+  <mappers>
+    <mapper resource="StockMapper.xml"/>
+  </mappers>
 </configuration>
