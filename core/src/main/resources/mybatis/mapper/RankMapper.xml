@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stocksinsite.core.repository.RankRepository">
+  <select id="getRankByCap" resultType="java.util.HashMap">
+    SELECT *
+    FROM (
+      SELECT ticker, name, cap, RANK() OVER(ORDER BY cap DESC) AS rnk
+      FROM stocks_info
+    ) AS T1
+    <![CDATA[WHERE T1.rnk >= ${start}]]> 
+    <![CDATA[AND T1.rnk <= ${end}]]>;
+  </select>
+  <select id="getRankByCorrel" resultType="java.util.HashMap">
+    SELECT *
+    FROM (
+      SELECT ticker, name, period, ${investor}VolCum, RANK() OVER(ORDER BY ${investor}VolCum DESC) AS rnk
+      FROM correl
+      WHERE period = 'last_${period}m'
+    ) AS T1
+    <![CDATA[WHERE T1.rnk >= ${start}]]> 
+    <![CDATA[AND T1.rnk <= ${end}]]>;
+  </select>
+</mapper>

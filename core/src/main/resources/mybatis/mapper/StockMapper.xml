@@ -9,13 +9,4 @@
     FROM last_${period}m_norm
     WHERE ticker = ${ticker};
   </select>
-  <select id="getRankByCap" resultType="java.util.HashMap">
-    SELECT *
-    FROM (
-      SELECT ticker, name, cap, RANK() OVER(ORDER BY cap DESC) AS rnk
-      FROM stocks_info
-    ) AS T1
-    <![CDATA[WHERE T1.rnk >= ${start}]]> 
-    <![CDATA[AND T1.rnk <= ${end}]]>;
-  </select>
 </mapper>
