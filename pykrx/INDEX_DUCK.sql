@@ -107,7 +107,7 @@ CREATE TABLE correl(
   forVolCumCor   double,
   insAmtCumCor   double,
   etcAmtCumCor   double,
-  indAmtCumCor   double,
   forAmtCumCor   double,
+  indAmtCumCor   double,
   primary key (ticker, period)
 ) engine = InnoDB;
