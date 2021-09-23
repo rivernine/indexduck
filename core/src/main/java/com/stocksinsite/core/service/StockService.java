@@ -16,4 +16,8 @@ public class StockService {
   public List<Map<String, Object>> getStock(String ticker, String period){    
     return stockRepository.getStock(ticker, period);
   }
+
+  public List<Map<String, Object>> getRankByCap(String start, String end){    
+    return stockRepository.getRankByCap(start, end);
+  }
 }

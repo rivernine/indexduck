@@ -20,4 +20,8 @@ public class StockController {
     return stockService.getStock(ticker, period);
   }
   
+  @GetMapping("/getRankByCap")
+  public List<Map<String, Object>> getRankByCap(@RequestParam String start, @RequestParam String end) {
+    return stockService.getRankByCap(start, end);
+  }
 }
