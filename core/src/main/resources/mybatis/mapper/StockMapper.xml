@@ -9,4 +9,16 @@
     FROM last_${period}m_norm
     WHERE ticker = ${ticker};
   </select>
+  <select id="getStockOrderByCap" resultType="java.util.HashMap">
+    SELECT T2.date, T2.name, T2.closeNorm, T2.indVolCumNorm, T2.insVolCumNorm, T2.forVolCumNorm, T2.etcVolCumNorm
+    FROM (
+      SELECT ticker, name, cap, RANK() OVER(ORDER BY cap DESC) AS rnk
+      FROM stocks_info
+      WHERE market = '${market}'
+    ) AS T1
+    LEFT JOIN last_${period}m_norm AS T2
+    ON T1.ticker = T2.ticker
+    <![CDATA[WHERE T1.rnk >= ${start}]]> 
+    <![CDATA[AND T1.rnk <= ${end}]]>;
+  </select>
 </mapper>
