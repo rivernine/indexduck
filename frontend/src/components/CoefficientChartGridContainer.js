@@ -10,8 +10,8 @@ import Grid from '@material-ui/core/Grid';
 //   }
 // }));
 
-function createData (date, 종가, 개인, 기관, 외국인, 기타법인) {
-  return { date, 종가, 개인, 기관, 외국인, 기타법인 }
+function createData (date, closeNorm, indVolCumNorm, insVolCumNorm, forVolCumNorm, etcVolCumNorm) {
+  return { date, closeNorm, indVolCumNorm, insVolCumNorm, forVolCumNorm, etcVolCumNorm }
 }
 
 class CoefficientChartGridContainer extends React.Component {
@@ -26,7 +26,7 @@ class CoefficientChartGridContainer extends React.Component {
 
   componentDidMount() {
     // fetch('/getCorrels?market="kospi"&offset=0')
-    fetch('/getStockOrderByCap?market=KOSPI&period=1&start=1&end=10')
+    fetch('/getStockOrderByCap?market=KOSPI&period=1&start=1&end=100')
       .then(res => res.json())
       // .then(json => console.log(json))
       .then(json => {
