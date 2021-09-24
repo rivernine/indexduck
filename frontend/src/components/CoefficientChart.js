@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTheme } from '@material-ui/core/styles';
-import { Tooltip, LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
+import { Tooltip, LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer, Legend } from 'recharts';
 
 export default function CoefficientChart(props) {
   const theme = useTheme();
@@ -20,7 +20,8 @@ export default function CoefficientChart(props) {
           }}
         >
           <XAxis dataKey="date" stroke={theme.palette.text.secondary} tick={{fontSize: 12, fill: theme.palette.text.secondary}}/>
-          <YAxis stroke={theme.palette.text.secondary} width={1} tick={false} domain={['dataMin - 1000', 'dataMax + 1000']}>
+          {/* <YAxis stroke={theme.palette.text.secondary} width={1} tick={false} domain={['dataMin - 1000', 'dataMax + 1000']}> */}
+          <YAxis stroke={theme.palette.text.secondary} width={1} tick={false} domain={['dataMin', 'dataMax']}>            
             {/* <Label
               angle={270}
               position="left"
@@ -29,12 +30,13 @@ export default function CoefficientChart(props) {
               Sales ($)
             </Label> */}
           </YAxis>
+          <Legend />
           {/* <Line type="monotone" dataKey="amount" stroke={theme.palette.primary.main} dot={false} /> */}
-          <Line type="monotone" dataKey="close" stroke="#DDDDDD" dot={false} /> {/* white */} 
-          <Line type="monotone" dataKey="indVolCum" stroke="#20639B" dot={false} /> {/* blue */}
-          <Line type="monotone" dataKey="insVolCum" stroke="#3CAEA3" dot={false} /> {/* green */}
-          <Line type="monotone" dataKey="forVolCum" stroke="#F6D55C" dot={false} /> {/* yellow */}
-          <Line type="monotone" dataKey="etcVolCum" stroke="#ED553B" dot={false} /> {/* red */} 
+          <Line type="monotone" dataKey="종가" stroke="#DDDDDD" strokeWidth="3" dot={false} /> {/* white */}           
+          <Line type="monotone" dataKey="개인" stroke="#20639B" dot={false} /> {/* blue */}
+          <Line type="monotone" dataKey="기관" stroke="#3CAEA3" dot={false} /> {/* green */}
+          <Line type="monotone" dataKey="외국인" stroke="#F6D55C" dot={false} /> {/* yellow */}
+          <Line type="monotone" dataKey="기타법인" stroke="#ED553B" dot={false} /> {/* red */} 
           {/* <Line type="monotone" dataKey="amount2" stroke="#82ca9d" dot={false} /> */}
         </LineChart>
       </ResponsiveContainer>

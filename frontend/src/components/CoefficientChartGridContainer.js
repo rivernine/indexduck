@@ -10,8 +10,8 @@ import Grid from '@material-ui/core/Grid';
 //   }
 // }));
 
-function createData (date, close, indVolCum, insVolCum, forVolCum, etcVolCum) {
-  return { date, close, indVolCum, insVolCum, forVolCum, etcVolCum }
+function createData (date, 종가, 개인, 기관, 외국인, 기타법인) {
+  return { date, 종가, 개인, 기관, 외국인, 기타법인 }
 }
 
 class CoefficientChartGridContainer extends React.Component {
@@ -25,7 +25,8 @@ class CoefficientChartGridContainer extends React.Component {
   }
 
   componentDidMount() {
-    fetch('/getCorrels?market="kospi"&offset=0')
+    // fetch('/getCorrels?market="kospi"&offset=0')
+    fetch('/getStockOrderByCap?market=KOSPI&period=1&start=1&end=10')
       .then(res => res.json())
       // .then(json => console.log(json))
       .then(json => {
@@ -42,12 +43,12 @@ class CoefficientChartGridContainer extends React.Component {
             holder.id = id;
             holder.name = item.name;
             holder.data.push(
-              createData(item.date, item.close, item.indVolCum, item.insVolCum, item.forVolCum, item.etcVolCum)
+              createData(item.date, item.closeNorm, item.indVolCumNorm, item.insVolCumNorm, item.forVolCumNorm, item.etcVolCumNorm)
             )
           // same company
           } else if (holder.name === item.name) {
             holder.data.push(
-              createData(item.date, item.close, item.indVolCum, item.insVolCum, item.forVolCum, item.etcVolCum)
+              createData(item.date, item.closeNorm, item.indVolCumNorm, item.insVolCumNorm, item.forVolCumNorm, item.etcVolCumNorm)
             )
           // different company
           } else if (holder.name !== item.name) {
