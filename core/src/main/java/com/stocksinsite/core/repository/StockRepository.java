@@ -8,4 +8,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface StockRepository {  
   List<Map<String, Object>> getStock(String ticker, String period);
+  List<Map<String, Object>> getStockOrderByCap(String market, String period, String start, String end);
 }

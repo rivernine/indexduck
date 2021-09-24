@@ -1,24 +1,39 @@
-SELECT *
-FROM (
-  SELECT * 
-  FROM stocks_info 
-  WHERE per != 0 
-  ORDER BY per
-) as T1, correl as T2
-WHERE T2.period = 'last_3m' 
-LIMIT 10;
-
+-- 시가총액 순위 TOP 10 
 SELECT *
 FROM (
   SELECT ticker, name, cap, RANK() OVER(ORDER BY cap DESC) AS rnk
   FROM stocks_info
 ) AS T1
-WHERE T1.rnk < 10;
+WHERE T1.rnk <= 10;
 
+-- 기관 누적 거래량 상관계수 TOP 10
 SELECT *
 FROM (
   SELECT ticker, name, period, insVolCum, RANK() OVER(ORDER BY insVolCum DESC) AS rnk
   FROM correl
   WHERE period = 'last_1m'
 ) AS T1
-WHERE T1.rnk< 10;
+WHERE T1.rnk <= 10;
+
+-- 코스피 시가총액 TOP10 기업의 상관계수
+SELECT correl.*, T1.cap
+FROM (
+  SELECT ticker, name, cap, RANK() OVER(ORDER BY cap DESC) AS rnk
+  FROM stocks_info
+  where market = 'KOSPI'
+) AS T1
+LEFT JOIN correl
+ON T1.ticker = correl.ticker
+WHERE T1.rnk <= 10
+AND period = 'last_3m';
+
+-- 시가총액 start~end등의 기업들의 정보를 조회한다.
+SELECT last_1m_norm.*
+FROM (
+  SELECT ticker, name, cap, RANK() OVER(ORDER BY cap DESC) AS rnk
+  FROM stocks_info
+  WHERE market = 'KOSPI'
+) AS T1
+LEFT JOIN last_1m_norm
+ON T1.ticker = last_1m_norm.ticker
+WHERE rnk <= 1;
