@@ -28,12 +28,12 @@ WHERE T1.rnk <= 10
 AND period = 'last_3m';
 
 -- 시가총액 start~end등의 기업들의 정보를 조회한다.
-SELECT last_1m_norm.*
+SELECT T2.date, T2.name, T2.closeNorm, T2.indVolCumNorm, T2.insVolCumNorm, T2.forVolCumNorm, T2.etcVolCumNorm
 FROM (
   SELECT ticker, name, cap, RANK() OVER(ORDER BY cap DESC) AS rnk
   FROM stocks_info
   WHERE market = 'KOSPI'
 ) AS T1
-LEFT JOIN last_1m_norm
-ON T1.ticker = last_1m_norm.ticker
+LEFT JOIN last_1m_norm AS T2
+ON T1.ticker = T2.ticker
 WHERE rnk <= 1;
