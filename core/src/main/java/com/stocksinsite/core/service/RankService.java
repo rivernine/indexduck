@@ -20,4 +20,8 @@ public class RankService {
   public List<Map<String, Object>> getRankByCorrel(String investor, String period, String start, String end){    
     return rankRepository.getRankByCorrel(investor, period, start, end);
   }
+
+  public List<Map<String, Object>> getRankByCorrelRangeCapPer(String investor, String period, String startCorrel, String endCorrel, String startCap, String endCap, String startPer, String endPer) {
+    return rankRepository.getRankByCorrelRangeCapPer(investor, period, startCorrel, endCorrel, startCap, endCap, startPer, endPer);
+  }
 }

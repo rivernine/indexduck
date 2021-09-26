@@ -23,4 +23,22 @@
     <![CDATA[WHERE T1.rnk >= ${start}]]> 
     <![CDATA[AND T1.rnk <= ${end}]]>;
   </select>
+  <select id="getRankByCorrelRangeCapPer" resultType="java.util.HashMap">
+    SELECT *
+    FROM (
+      SELECT T1.ticker, T1.name, correl.period, correl.${investor}VolCum, RANK() OVER(ORDER BY correl.${investor}VolCum DESC) AS rnk, T1.cap, T1.per
+      FROM (
+        SELECT ticker, name, cap, per
+        FROM stocks_info
+        <![CDATA[WHERE cap <= ${startCap}]]>
+        <![CDATA[AND cap <= ${endCap}]]>
+        <![CDATA[AND per >= ${startPer}]]> 
+        <![CDATA[AND per <= ${endPer}]]>
+      ) AS T1
+      LEFT JOIN correl
+      ON T1.ticker = correl.ticker;
+    ) AS JT1
+    <![CDATA[WHERE JT1.rnk >= ${startCorrel}]]> 
+    <![CDATA[AND JT1.rnk <= ${endCorrel}]]>;
+  </select>
 </mapper>

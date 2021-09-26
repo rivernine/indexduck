@@ -21,13 +21,47 @@ public class RankController {
     return rankService.getRankByCap(start, end);
   }
 
-  // investor(투자자)
-  //   ind: 개인, for: 외국인, ins: 기관, etc: 기타법인
-  // period(기간)
-  //   1, 3, 6, 12
-  // start, end(순위)
+  // 투자자별 상관계수의 지정순위에 해당하는 기업을 조회한다.
+  // 
+  // -- Request
+  // - investor(투자자)
+  //   - ind: 개인, for: 외국인, ins: 기관, etc: 기타법인
+  // - period(기간)
+  //   - 1, 3, 6, 12
+  // - start, end(상관계수순위)
+  // 
+  // -- Response
+  // 
   @GetMapping("/getRankByCorrel")
-  public List<Map<String, Object>> getRankByCorrel(@RequestParam String investor, @RequestParam String period, @RequestParam String start, @RequestParam String end) {
+  public List<Map<String, Object>> getRankByCorrel( @RequestParam String investor, 
+                                                    @RequestParam String period, 
+                                                    @RequestParam String start, 
+                                                    @RequestParam String end) {
     return rankService.getRankByCorrel(investor, period, start, end);
+  }
+
+  // 투자자별 상관계수의 지정순위와 시가총액, PER의 지정범위에 해당하는 기업을 조회한다.
+  // 
+  // -- Request
+  // - investor(투자자)
+  //   - ind: 개인, for: 외국인, ins: 기관, etc: 기타법인
+  // - period(기간)
+  //   - 1, 3, 6, 12
+  // - startCorrel, endCorrel(상관계수순위)
+  // - startCap, endCap(시가총액범위)
+  // - startPer, endPer(PER범위)
+  // 
+  // -- Response
+  // 
+  @GetMapping("/getRankByCorrelRangeCapPer")
+  public List<Map<String, Object>> getRankByCorrelRangeCapPer(@RequestParam String investor, 
+                                                              @RequestParam String period, 
+                                                              @RequestParam String startCorrel, 
+                                                              @RequestParam String endCorrel, 
+                                                              @RequestParam String startCap, 
+                                                              @RequestParam String endCap, 
+                                                              @RequestParam String startPer, 
+                                                              @RequestParam String endPer) {
+    return rankService.getRankByCorrelRangeCapPer(investor, period, startCorrel, endCorrel, startCap, endCap, startPer, endPer);
   }
 }

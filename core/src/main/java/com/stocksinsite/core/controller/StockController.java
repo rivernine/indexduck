@@ -23,19 +23,44 @@ public class StockController {
     return stockService.getStock(ticker, period);
   }
 
-  // 시가총액 start~end등의 기업들의 정보를 조회한다.
+  // 시가총액의 지정순위에 속하는 기업들을 조회한다.
   // 
   // -- Request
-  // market(시장)
-  //   KOSPI(DEFAULT), KOSDAQ
-  // period(기간)
-  //   1, 3, 6, 12
-  // start, end(시가총액 순위)
+  // - market(시장)
+  //   - KOSPI(DEFAULT), KOSDAQ
+  // - period(기간)
+  //   - 1, 3, 6, 12
+  // - start, end(시가총액 순위)
   // 
   // -- Response
   // 기간 | 종가 | 개인순매수거래량 | 기관순매수거래량 | 외국인순매수거래량 | 기타법인순매수거래량
-  @GetMapping("/getStockOrderByCap")
-  public List<Map<String, Object>> getStockOrderByCap(@RequestParam(defaultValue="KOSPI") String market, @RequestParam String period, @RequestParam String start, @RequestParam String end){
-    return stockService.getStockOrderByCap(market, period, start, end);
+  @GetMapping("/getStockRangeCap")
+  public List<Map<String, Object>> getStockRangeCap(@RequestParam(defaultValue="KOSPI") String market, 
+                                                    @RequestParam String period, 
+                                                    @RequestParam String start, 
+                                                    @RequestParam String end){
+    return stockService.getStockRangeCap(market, period, start, end);
+  }
+
+  // 시가총액과 PER의 지정범위에 속하는 기업들을 조회한다.
+  // 
+  // -- Request
+  // - market(시장)
+  //   - KOSPI(DEFAULT), KOSDAQ
+  // - period(기간)
+  //   - 1, 3, 6, 12
+  // - startCap, endCap(시가총액 범위)
+  // - startPer, endPer(Per 범위)
+  // 
+  // -- Response
+  // 기간 | 종가 | 개인순매수거래량 | 기관순매수거래량 | 외국인순매수거래량 | 기타법인순매수거래량
+  @GetMapping("/getStockRangeCapPer")
+  public List<Map<String, Object>> getStockRangeCapPer( @RequestParam(defaultValue="KOSPI") String market, 
+                                                        @RequestParam String period, 
+                                                        @RequestParam String startCap, 
+                                                        @RequestParam String endCap, 
+                                                        @RequestParam String startPer, 
+                                                        @RequestParam String endPer){
+    return stockService.getStockRangeCapPer(market, period, startCap, endCap, startPer, endPer);
   }
 }
