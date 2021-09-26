@@ -30,13 +30,13 @@
       FROM (
         SELECT ticker, name, cap, per
         FROM stocks_info
-        <![CDATA[WHERE cap <= ${startCap}]]>
+        <![CDATA[WHERE cap >= ${startCap}]]>
         <![CDATA[AND cap <= ${endCap}]]>
         <![CDATA[AND per >= ${startPer}]]> 
         <![CDATA[AND per <= ${endPer}]]>
       ) AS T1
       LEFT JOIN correl
-      ON T1.ticker = correl.ticker;
+      ON T1.ticker = correl.ticker
     ) AS JT1
     <![CDATA[WHERE JT1.rnk >= ${startCorrel}]]> 
     <![CDATA[AND JT1.rnk <= ${endCorrel}]]>;

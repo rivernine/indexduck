@@ -27,7 +27,7 @@
       SELECT ticker, name, cap, per
       FROM stocks_info
       WHERE market = '${market}'
-      <![CDATA[AND cap <= ${startCap}]]>
+      <![CDATA[AND cap >= ${startCap}]]>
       <![CDATA[AND cap <= ${endCap}]]>
       <![CDATA[AND per >= ${startPer}]]> 
       <![CDATA[AND per <= ${endPer}]]>
