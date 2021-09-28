@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import CoefficientChartGrid from './CoefficientChartGrid';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
 // const useStyles = makeStyles((theme) => ({
 //   container: {
@@ -18,15 +19,16 @@ class CoefficientChartGridContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      list: [],
+      entireList: [],
+      displayList: [],
       starList: [],
       isLoaded: false,
     };
   }
 
-  componentDidMount() {
-    // fetch('/getCorrels?market="kospi"&offset=0')
-    fetch('/getStockOrderByCap?market=KOSPI&period=1&start=1&end=100')
+  componentWillMount() {
+    fetch('/getCorrels?market="kospi"&offset=0')
+    // fetch('/getStockOrderByCap?market=KOSPI&period=1&start=1&end=100')
       .then(res => res.json())
       // .then(json => console.log(json))
       .then(json => {
@@ -65,69 +67,41 @@ class CoefficientChartGridContainer extends React.Component {
         result.push(holder);
         console.log(result);
         this.setState({
-          isLoaded: true,
-          list: result
+          entireList: result,
+          displayList: result.slice(0, 12),
+          isLoaded: true
         });
       });
   }
 
-  // state = {
-  //   starList: [],
-  //   list: [
-  //     {
-  //       id: 0,
-  //       company: "삼성전자",
-  //       data: [
-  //         createData("2021-07-30", 78500),
-  //         createData("2021-08-02", 79300),
-  //         createData("2021-08-03", 81400),
-  //         createData("2021-08-04", 82900),
-  //         createData("2021-08-05", 82100),
-  //         createData("2021-08-06", 81500),
-  //         createData("2021-08-09", 81500),
-  //         createData("2021-08-10", 80200),
-  //         createData("2021-08-11", 78500),
-  //         createData("2021-08-12", 77000),
-  //         createData("2021-08-13", 74400),
-  //         createData("2021-08-17", 74200),
-  //         createData("2021-08-18", 73900),
-  //         createData("2021-08-19", 73100),
-  //         createData("2021-08-20", 72700),
-  //         createData("2021-08-23", 73300),
-  //         createData("2021-08-24", 75600),
-  //         createData("2021-08-25", 75700),
-  //         createData("2021-08-26", 74600),
-  //         createData("2021-08-27", 74300)
-  //       ]
-  //     },
-  //     {
-  //       id: 1,
-  //       company: "SK하이닉스",
-  //       data: [
-  //         createData("2021-07-30", 112500),
-  //         createData("2021-08-02", 116000),
-  //         createData("2021-08-03", 120000),
-  //         createData("2021-08-04", 121000),
-  //         createData("2021-08-05", 120000),
-  //         createData("2021-08-06", 118000),
-  //         createData("2021-08-09", 116000),
-  //         createData("2021-08-10", 112500),
-  //         createData("2021-08-11", 105500),
-  //         createData("2021-08-12", 100500),
-  //         createData("2021-08-13", 101500),
-  //         createData("2021-08-17", 101500),
-  //         createData("2021-08-18", 104000),
-  //         createData("2021-08-19", 102500),
-  //         createData("2021-08-20", 102500),
-  //         createData("2021-08-23", 103000),
-  //         createData("2021-08-24", 105000),
-  //         createData("2021-08-25", 103500),
-  //         createData("2021-08-26", 104000),
-  //         createData("2021-08-27", 103500)  
-  //       ]
-  //     }
-  //   ]
-  // }
+  isBottom(el) {
+    // console.log("el.getBoundingClientRect().bottom" + el.getBoundingClientRect().bottom);
+    // console.log("window.innerHeight" + window.innerHeight);
+    return el.getBoundingClientRect().bottom <= window.innerHeight;
+  }
+  
+  trackScrolling = () => {
+    const wrappedElement = document.getElementById('gridContainer');
+    if (this.isBottom(wrappedElement)) {
+      console.log('header bottom reached');
+      var currentLength = this.state.displayList.length;
+      this.setState({
+        displayList: this.state.entireList.slice(0, currentLength + 12)
+      })
+    }
+    
+    if (this.state.displayList.length === this.state.entireList.length) {
+      document.removeEventListener('scroll', this.trackScrolling);
+    }
+  };
+
+  componentDidMount() {
+    document.addEventListener('scroll', this.trackScrolling);
+  }
+  
+  componentWillUnmount() {
+    document.removeEventListener('scroll', this.trackScrolling);
+  }
 
   // handleStarDisable = 
   
@@ -150,8 +124,8 @@ class CoefficientChartGridContainer extends React.Component {
 
 
   render() {
-    const { list, starList, isLoaded } = this.state;
-    const gridList = list.map(
+    const { displayList, starList, isLoaded } = this.state;
+    const gridList = displayList.map(
       stock => (
         <CoefficientChartGrid
           key={stock.id}
@@ -162,10 +136,14 @@ class CoefficientChartGridContainer extends React.Component {
     );
 
     if (!isLoaded) {
-      return <div>Loading...</div>;
+      return (
+        <Typography align="center" component="h2" color="initial">
+          Loading...
+        </Typography>
+      );
     } else {
       return (
-        <Grid container spacing={3}>
+        <Grid container spacing={3} id={'gridContainer'}>
           {gridList}
         </Grid>
       );

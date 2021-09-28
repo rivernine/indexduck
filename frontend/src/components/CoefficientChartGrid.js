@@ -12,8 +12,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
-    height: 300,
-    position: "relative"
+    height: 400,
+    position: "relative",
+    overflow: "hidden"
   }
 }));
 
@@ -26,7 +27,7 @@ export default function CoefficientChartGrid(props) {
       <Paper className={classes.paper}>
         <Title>{props.name}</Title>
         <StarPin />
-        <CoefficientChart data={props.data}/>
+        <CoefficientChart class="mb-2" data={props.data}/>
       </Paper>
     </Grid>
   )

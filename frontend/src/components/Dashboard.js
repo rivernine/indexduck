@@ -20,6 +20,10 @@ import Box from '@material-ui/core/Box';
 import Copyright from './Copyright';
 import logo from '../images/logo.png';
 import CoefficientChartGridContainer from './CoefficientChartGridContainer';
+import useScrollTrigger from '@mui/material/useScrollTrigger';
+import Zoom from '@mui/material/Zoom';
+import Fab from '@mui/material/Fab';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 const drawerWidth = 240;
 
@@ -76,6 +80,43 @@ const useStyles = makeStyles((theme) => ({
     height: "45px",
   }
 }));
+
+function ScrollTop(props) {
+  const { children, window } = props;
+  // Note that you normally won't need to set the window ref as useScrollTrigger
+  // will default to window.
+  // This is only being set here because the demo is in an iframe.
+  const trigger = useScrollTrigger({
+    target: window ? window() : undefined,
+    disableHysteresis: true,
+    threshold: 100,
+  });
+
+  const handleClick = (event) => {
+    const anchor = (event.target.ownerDocument || document).querySelector(
+      '#back-to-top-anchor',
+    );
+
+    if (anchor) {
+      anchor.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+    }
+  };
+
+  return (
+    <Zoom in={trigger}>
+      <Box
+        onClick={handleClick}
+        role="presentation"
+        sx={{ position: 'fixed', bottom: 16, right: 16 }}
+      >
+        {children}
+      </Box>
+    </Zoom>
+  );
+}
 
 function Dashboard(props) {
   const { window } = props;
@@ -162,13 +203,18 @@ function Dashboard(props) {
         </Hidden>
       </nav>
       <main className={classes.content}>
-        <div className={classes.toolbar} />
+        <div className={classes.toolbar} id="back-to-top-anchor"/>
         <Container maxWidth="100%" className={classes.container}>
           <CoefficientChartGridContainer />
           <Box pt={4}>
             <Copyright />
           </Box>
         </Container>
+        <ScrollTop {...props}>
+          <Fab color="secondary" size="medium" aria-label="scroll back to top">
+            <KeyboardArrowUpIcon />
+          </Fab>
+        </ScrollTop>
       </main>
     </div>
   );

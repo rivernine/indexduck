@@ -10,6 +10,13 @@ const darkTheme = createTheme({
       paper: '#303030',
     },
   },
+  stock: {
+    close: '#DEDFE1', //white 
+    ind: '#FFC61E', // yellow
+    ins: '#0072C6', // blue
+    for: '#FD4F00', // red
+    etc: '#00D7A7', // green
+  },
 });
 
 function App() {

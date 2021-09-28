@@ -23,7 +23,7 @@ export default function CoefficientChart(props) {
         >
           <XAxis dataKey="date" stroke={theme.palette.text.secondary} tick={{fontSize: 12, fill: theme.palette.text.secondary}}/>
           {/* <YAxis stroke={theme.palette.text.secondary} width={1} tick={false} domain={['dataMin - 1000', 'dataMax + 1000']}> */}
-          <YAxis stroke={theme.palette.text.secondary} width={1} tick={false} domain={['dataMin', 'dataMax']}>            
+          <YAxis stroke={theme.palette.text.secondary} width={1} tick={false} domain={['dataMin - 0.05', 'dataMax + 0.05']}>            
             {/* <Label
               angle={270}
               position="left"
@@ -33,12 +33,14 @@ export default function CoefficientChart(props) {
             </Label> */}
           </YAxis>
           <Legend />
+          <Tooltip />
           {/* <Line type="monotone" dataKey="amount" stroke={theme.palette.primary.main} dot={false} /> */}
-          <Line name="종가" type="monotone" dataKey="closeNorm" stroke="#DDDDDD" strokeWidth="3" dot={false} /> {/* white */}           
-          <Line name="개인" type="monotone" dataKey="indVolCumNorm" stroke="#20639B" dot={false}/> {/* blue */}
-          <Line name="기관" type="monotone" dataKey="insVolCumNorm" stroke="#3CAEA3" dot={false} /> {/* green */}
-          <Line name="외국인" type="monotone" dataKey="forVolCumNorm" stroke="#F6D55C" dot={false} /> {/* yellow */}
-          <Line name="기타법인" type="monotone" dataKey="etcVolCumNorm" stroke="#ED553B" dot={false} /> {/* red */} 
+          
+          <Line name="종가" type="monotone" dataKey="closeNorm" stroke={theme.stock.close} strokeWidth="2.2" dot={false} />
+          <Line name="개인" type="monotone" dataKey="indVolCumNorm" stroke={theme.stock.ind} dot={false} /> 
+          <Line name="기관" type="monotone" dataKey="insVolCumNorm" stroke={theme.stock.ins} dot={false} /> 
+          <Line name="외국인" type="monotone" dataKey="forVolCumNorm" stroke={theme.stock.for} dot={false} /> 
+          <Line name="기타법인" type="monotone" dataKey="etcVolCumNorm" stroke={theme.stock.etc} dot={false} /> 
           {/* <Line type="monotone" dataKey="amount2" stroke="#82ca9d" dot={false} /> */}
         </LineChart>
       </ResponsiveContainer>
