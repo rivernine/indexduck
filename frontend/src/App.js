@@ -1,6 +1,7 @@
 import './App.css';
 import Dashboard from './components/Dashboard';
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';
+// import { Route } from 'react-router-dom';
 
 const darkTheme = createTheme({
   palette: {
@@ -23,6 +24,9 @@ function App() {
   return (
     
     <ThemeProvider theme={darkTheme}>
+      {/* <Route path="/" component={Dashboard} exact/> */}
+      {/* <Route path="/chart" component={Dashboard} /> */}
+      {/* <Route path="/search" component={Dashboard} /> */}
       <Dashboard />
     </ThemeProvider>
   );

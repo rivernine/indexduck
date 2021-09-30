@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from "react";
 import clsx from 'clsx';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,6 +11,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ShowChartIcon from '@material-ui/icons/ShowChart';
+import ScreenSearchDesktopIcon from '@mui/icons-material/ScreenSearchDesktop';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -20,10 +21,12 @@ import Box from '@material-ui/core/Box';
 import Copyright from './Copyright';
 import logo from '../images/logo.png';
 import CoefficientChartGridContainer from './CoefficientChartGridContainer';
+import SearchContainer from './SearchContainer';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Zoom from '@mui/material/Zoom';
 import Fab from '@mui/material/Fab';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -124,6 +127,10 @@ function Dashboard(props) {
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  const container = window !== undefined ? () => window().document.body : undefined;
+  const [containerBody, setContainerBody] = useState("chart");
+  const onClickChart = () => setContainerBody("chart");
+  const onClickSearch = () => setContainerBody("search");
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -133,18 +140,21 @@ function Dashboard(props) {
     <div>
       <div className={classes.toolbar} />
       <List>
-        {['상관계수차트'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon><ShowChartIcon /></ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+        {/* <ListItem button key='상관계수차트' component={Link} to={'/dashboard'}> */}
+        <ListItem button key='상관계수차트' onClick={onClickChart}>
+          <ListItemIcon><ShowChartIcon /></ListItemIcon>
+          <ListItemText primary='상관계수차트' />
+        </ListItem>
+        {/* <ListItem button key='종목분석' component={Link} to={'/search'}> */}
+        <ListItem button key='종목분석' onClick={onClickSearch}>
+          <ListItemIcon><ScreenSearchDesktopIcon/></ListItemIcon>
+          <ListItemText primary='종목분석' />
+        </ListItem>
+        
       </List>
 
     </div>
   );
-
-  const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
     <div className={classes.root}>
@@ -205,7 +215,11 @@ function Dashboard(props) {
       <main className={classes.content}>
         <div className={classes.toolbar} id="back-to-top-anchor"/>
         <Container maxWidth="100%" className={classes.container}>
-          <CoefficientChartGridContainer />
+          {
+            containerBody === "chart"
+              ? <CoefficientChartGridContainer />
+              : <SearchContainer />
+          }
           <Box pt={4}>
             <Copyright />
           </Box>
