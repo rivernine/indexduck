@@ -1,158 +1,120 @@
-import React from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import CoefficientChartGrid from '../chart/CoefficientChartGrid';
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import { withStyles } from "@material-ui/core/styles";
 
-// const useStyles = makeStyles((theme) => ({
-//   container: {
-//     paddingTop: theme.spacing(4),
-//     paddingBottom: theme.spacing(4),
-//   }
-// }));
+// import { makeStyles, useTheme } from '@material-ui/core/styles';
+// import CoefficientChartGrid from '../chart/CoefficientChartGrid';
+// import Grid from '@material-ui/core/Grid';
+// import Typography from '@material-ui/core/Typography';
 
-function createData (date, closeNorm, indVolCumNorm, insVolCumNorm, forVolCumNorm, etcVolCumNorm) {
-  return { date, closeNorm, indVolCumNorm, insVolCumNorm, forVolCumNorm, etcVolCumNorm }
+
+// componentWillMount() {
+//   fetch('/getCorrels?market="kospi"&offset=0')
+//   // fetch('/getStockOrderByCap?market=KOSPI&period=1&start=1&end=100')
+//     .then(res => res.json())
+//     // .then(json => console.log(json))
+//     .then(json => {
+//       var id = 0;
+//       var holder = {
+//         id: -1,
+//         name: "null",
+//         data: [],
+//       };
+//       var result = [];
+//       for (const item of json) {
+//         // first company
+//         if (holder.name === "null") {
+//           holder.id = id;
+//           holder.name = item.name;
+//           holder.data.push(
+//             createData(item.date, item.closeNorm, item.indVolCumNorm, item.insVolCumNorm, item.forVolCumNorm, item.etcVolCumNorm)
+//           )
+//         // same company
+//         } else if (holder.name === item.name) {
+//           holder.data.push(
+//             createData(item.date, item.closeNorm, item.indVolCumNorm, item.insVolCumNorm, item.forVolCumNorm, item.etcVolCumNorm)
+//           )
+//         // different company
+//         } else if (holder.name !== item.name) {
+//           result.push(holder);
+//           id ++;
+//           holder = {
+//             id: id,
+//             name: item.name,
+//             data: [],
+//           };
+//         } 
+//       }
+//       // push last holder
+//       result.push(holder);
+//       console.log(result);
+//       this.setState({
+//         entireList: result,
+//         displayList: result.slice(0, 12),
+//         isLoaded: true
+//       });
+//     });
+// }
+
+// componentDidMount() {
+//   document.addEventListener('scroll', this.trackScrolling);
+// }
+
+// componentWillUnmount() {
+//   document.removeEventListener('scroll', this.trackScrolling);
+// }
+
+const countries = [
+  { code: 'AD', label: 'Andorra', phone: '376' },
+  {
+    code: 'AE',
+    label: 'United Arab Emirates',
+    phone: '971',
+  }
+];
+
+function SearchContainer(props) {
+  return (
+    <Autocomplete
+      id="country-select-demo"
+      sx={{ width: 300, color: 'red' }}
+      options={countries}
+      autoHighlight
+      getOptionLabel={(option) => option.label}
+      renderOption={(props, option) => (
+        <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+          <img
+            loading="lazy"
+            width="20"
+            src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
+            srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
+            alt=""
+          />
+          {option.label} ({option.code}) +{option.phone}
+        </Box>
+      )}
+      renderInput={(params) => (
+        <Grid>
+          <Paper >
+            <TextField
+              {...params}
+              placeholder="test"
+              color="secondary" 
+              focused
+              label="Choose a stock"
+              inputProps={{
+                ...params.inputProps,
+              }}
+            />
+          </Paper>
+        </Grid>
+      )}
+    />
+  );
 }
 
-class SearchContainer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      entireList: [],
-      displayList: [],
-      starList: [],
-      isLoaded: false,
-    };
-  }
-
-  componentWillMount() {
-    fetch('/getCorrels?market="kospi"&offset=0')
-    // fetch('/getStockOrderByCap?market=KOSPI&period=1&start=1&end=100')
-      .then(res => res.json())
-      // .then(json => console.log(json))
-      .then(json => {
-        var id = 0;
-        var holder = {
-          id: -1,
-          name: "null",
-          data: [],
-        };
-        var result = [];
-        for (const item of json) {
-          // first company
-          if (holder.name === "null") {
-            holder.id = id;
-            holder.name = item.name;
-            holder.data.push(
-              createData(item.date, item.closeNorm, item.indVolCumNorm, item.insVolCumNorm, item.forVolCumNorm, item.etcVolCumNorm)
-            )
-          // same company
-          } else if (holder.name === item.name) {
-            holder.data.push(
-              createData(item.date, item.closeNorm, item.indVolCumNorm, item.insVolCumNorm, item.forVolCumNorm, item.etcVolCumNorm)
-            )
-          // different company
-          } else if (holder.name !== item.name) {
-            result.push(holder);
-            id ++;
-            holder = {
-              id: id,
-              name: item.name,
-              data: [],
-            };
-          } 
-        }
-        // push last holder
-        result.push(holder);
-        console.log(result);
-        this.setState({
-          entireList: result,
-          displayList: result.slice(0, 12),
-          isLoaded: true
-        });
-      });
-  }
-
-  isBottom(el) {
-    // console.log("el.getBoundingClientRect().bottom" + el.getBoundingClientRect().bottom);
-    // console.log("window.innerHeight" + window.innerHeight);
-    return el.getBoundingClientRect().bottom <= window.innerHeight;
-  }
-  
-  trackScrolling = () => {
-    const wrappedElement = document.getElementById('gridContainer');
-    if (this.isBottom(wrappedElement)) {
-      console.log('header bottom reached');
-      var currentLength = this.state.displayList.length;
-      this.setState({
-        displayList: this.state.entireList.slice(0, currentLength + 12)
-      })
-    }
-    
-    if (this.state.displayList.length === this.state.entireList.length) {
-      document.removeEventListener('scroll', this.trackScrolling);
-    }
-  };
-
-  componentDidMount() {
-    document.addEventListener('scroll', this.trackScrolling);
-  }
-  
-  componentWillUnmount() {
-    document.removeEventListener('scroll', this.trackScrolling);
-  }
-
-  // handleStarDisable = 
-  
-  // const filteredComponents = (data) => {
-  //   data = data.filter((c) => {
-  //   return c.name.indexOf(this.state.searchKeyword) > -1;
-  //   });
-  //   return data.map((c) => {
-  //   return <Customer stateRefresh={this.stateRefresh} key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job} />
-  //   });
-  //   }
-    
-  handleStarRemove = id => {
-    const { information } = this.state;
-    this.setState({
-      information: information.filter(info => info.id !== id),
-    });
-  };
-
-
-
-  render() {
-    const { displayList, starList, isLoaded } = this.state;
-    const gridList = displayList.map(
-      stock => (
-        <CoefficientChartGrid
-          key={stock.id}
-          name={stock.name}
-          data={stock.data}
-        />
-      )
-    );
-    return (
-      <Typography align="center" component="h2" color="initial">
-        Loading...
-      </Typography>
-    )
-    // if (!isLoaded) {
-    //   return (
-    //     <Typography align="center" component="h2" color="initial">
-    //       Loading...
-    //     </Typography>
-    //   );
-    // } else {
-    //   return (
-    //     <Grid container spacing={3} id={'gridContainer'}>
-    //       {gridList}
-    //     </Grid>
-    //   );
-    // }
-  }
-}
-
-export default SearchContainer;
+export default (SearchContainer);

@@ -130,7 +130,7 @@ function Dashboard(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const container = window !== undefined ? () => window().document.body : undefined;
-  const [containerBody, setContainerBody] = useState("chart");
+  const [containerBody, setContainerBody] = useState("search");
   const onClickChart = () => setContainerBody("chart");
   const onClickSearch = () => setContainerBody("search");
 
