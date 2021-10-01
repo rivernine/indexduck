@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     padding: theme.spacing(2),
-    backgroundColor: 'white',
+    backgroundColor: 'gray',
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
@@ -37,6 +37,18 @@ const useStyles = makeStyles((theme) => ({
     height: 600,
     position: "relative",
     overflow: "hidden"
+  },
+  textfield: {
+    "& .MuiInputBase-input.MuiAutocomplete-input": {
+      color: "#E6E6FA",
+      fontSize: 18
+    },
+    "& #custom-autocomplete-label": {
+      color: "#E6E6FA"
+    },
+    "& .MuiButtonBase-root.MuiAutocomplete-clearIndicator": {
+      color: "#6495ED"
+    }
   }
 }));
 
@@ -60,7 +72,7 @@ function SearchContainer(props) {
         <Grid container spacing={1}>
           <Grid item xs={4}>
             <Autocomplete
-              id="size-small-standard"
+              id="custom-autocomplete"
               size="small"
               options={top100Films}
               getOptionLabel={(option) => option.title}
@@ -71,6 +83,7 @@ function SearchContainer(props) {
                   variant="standard"
                   label="Choose a stock"
                   placeholder="Stock"
+                  className={classes.textfield}
                 />
               )}
             />
