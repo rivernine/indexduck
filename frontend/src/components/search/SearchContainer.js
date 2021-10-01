@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import { withStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 // import { makeStyles, useTheme } from '@material-ui/core/styles';
 // import CoefficientChartGrid from '../chart/CoefficientChartGrid';
@@ -77,44 +77,86 @@ const countries = [
   }
 ];
 
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     background: "black"
+//   },
+//   inputRoot: {
+//     color: "white"
+//   }
+// }));
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+  },
+  inputRoot: {
+    color: theme.jack.color
+  }
+}));
+
+
 function SearchContainer(props) {
+  const classes = useStyles();
   return (
     <Autocomplete
-      id="country-select-demo"
-      sx={{ width: 300, color: 'red' }}
+      id="combo-box-demo"
+      classes={classes}
       options={countries}
-      autoHighlight
-      getOptionLabel={(option) => option.label}
-      renderOption={(props, option) => (
-        <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
-          <img
-            loading="lazy"
-            width="20"
-            src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
-            srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
-            alt=""
+      getOptionLabel={(option) => option.title}
+      style={{ width: 300 }}
+      renderInput={(params) => {
+        return (
+          <TextField
+            {...params}
+            label="Combo box"
+            variant="outlined"
+            fullWidth
           />
-          {option.label} ({option.code}) +{option.phone}
-        </Box>
-      )}
-      renderInput={(params) => (
-        <Grid>
-          <Paper >
-            <TextField
-              {...params}
-              placeholder="test"
-              color="secondary" 
-              focused
-              label="Choose a stock"
-              inputProps={{
-                ...params.inputProps,
-              }}
-            />
-          </Paper>
-        </Grid>
-      )}
+        );
+      }}
     />
   );
+  // const classes = useStyles();
+  // return (
+  //   <Autocomplete
+  //     id="country-select-demo"
+  //     classes={classes}
+  //     sx={{ width: 300 }}
+  //     options={countries}
+  //     autoHighlight
+  //     getOptionLabel={(option) => option.label}
+  //     renderOption={(props, option) => (
+  //       <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+  //         <img
+  //           loading="lazy"
+  //           width="20"
+  //           src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
+  //           srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
+  //           alt=""
+  //         />
+  //         {option.label} ({option.code}) +{option.phone}
+  //       </Box>
+  //     )}
+  //     renderInput={(params) => (
+  //       <Grid >
+  //         <Paper>
+  //           <TextField
+  //             {...params}
+  //             color="primary" 
+  //             focused
+  //             label="Choose a stock"
+  //             // size='small'
+  //             inputProps={{
+  //               ...params.inputProps,                
+  //               // className: classes.input
+  //             }}              
+  //           />
+  //         </Paper>
+  //       </Grid>
+  //     )}
+  //   />
+  // );
 }
 
-export default (SearchContainer);
+export default SearchContainer;
