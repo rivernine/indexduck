@@ -1,162 +1,114 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Container from '@mui/material/Container';
+import { styled } from '@mui/material/styles';
 
-// import { makeStyles, useTheme } from '@material-ui/core/styles';
-// import CoefficientChartGrid from '../chart/CoefficientChartGrid';
-// import Grid from '@material-ui/core/Grid';
-// import Typography from '@material-ui/core/Typography';
+import CoefficientChartGrid from '../chart/CoefficientChartGrid';
+import CoefficientChart from '../chart/CoefficientChart';
+import Title from '../Title';
 
-
-// componentWillMount() {
-//   fetch('/getCorrels?market="kospi"&offset=0')
-//   // fetch('/getStockOrderByCap?market=KOSPI&period=1&start=1&end=100')
-//     .then(res => res.json())
-//     // .then(json => console.log(json))
-//     .then(json => {
-//       var id = 0;
-//       var holder = {
-//         id: -1,
-//         name: "null",
-//         data: [],
-//       };
-//       var result = [];
-//       for (const item of json) {
-//         // first company
-//         if (holder.name === "null") {
-//           holder.id = id;
-//           holder.name = item.name;
-//           holder.data.push(
-//             createData(item.date, item.closeNorm, item.indVolCumNorm, item.insVolCumNorm, item.forVolCumNorm, item.etcVolCumNorm)
-//           )
-//         // same company
-//         } else if (holder.name === item.name) {
-//           holder.data.push(
-//             createData(item.date, item.closeNorm, item.indVolCumNorm, item.insVolCumNorm, item.forVolCumNorm, item.etcVolCumNorm)
-//           )
-//         // different company
-//         } else if (holder.name !== item.name) {
-//           result.push(holder);
-//           id ++;
-//           holder = {
-//             id: id,
-//             name: item.name,
-//             data: [],
-//           };
-//         } 
-//       }
-//       // push last holder
-//       result.push(holder);
-//       console.log(result);
-//       this.setState({
-//         entireList: result,
-//         displayList: result.slice(0, 12),
-//         isLoaded: true
-//       });
-//     });
-// }
-
-// componentDidMount() {
-//   document.addEventListener('scroll', this.trackScrolling);
-// }
-
-// componentWillUnmount() {
-//   document.removeEventListener('scroll', this.trackScrolling);
-// }
-
-const countries = [
-  { code: 'AD', label: 'Andorra', phone: '376' },
-  {
-    code: 'AE',
-    label: 'United Arab Emirates',
-    phone: '971',
-  }
-];
-
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     background: "black"
-//   },
-//   inputRoot: {
-//     color: "white"
-//   }
-// }));
+const top100Films = [
+  { title: 'The Shawshank Redemption', year: 1994 },
+  { title: 'The Godfather', year: 1972 },
+]
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  coPaper: {
+    padding: theme.spacing(2),
     display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column',
+    height: 500,
+    position: "relative",
+    overflow: "hidden"
   },
-  inputRoot: {
-    color: theme.jack.color
+  paper: {
+    padding: theme.spacing(2),
+    backgroundColor: 'white',
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column',
+    width: 1000,
+    height: 600,
+    position: "relative",
+    overflow: "hidden"
   }
 }));
 
+const Item = styled(Paper)(({ theme }) => ({
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}));
+
+function createData(date, closeNorm, indVolCumNorm, insVolCumNorm, forVolCumNorm, etcVolCumNorm) {
+  return { date, closeNorm, indVolCumNorm, insVolCumNorm, forVolCumNorm, etcVolCumNorm }
+}
 
 function SearchContainer(props) {
   const classes = useStyles();
+
   return (
-    <Autocomplete
-      id="combo-box-demo"
-      classes={classes}
-      options={countries}
-      getOptionLabel={(option) => option.title}
-      style={{ width: 300 }}
-      renderInput={(params) => {
-        return (
-          <TextField
-            {...params}
-            label="Combo box"
-            variant="outlined"
-            fullWidth
-          />
-        );
-      }}
-    />
+    <Container maxWidth="100%">
+      <Paper className={classes.paper}>
+        <Grid container spacing={1}>
+          <Grid item xs={4}>
+            <Autocomplete
+              id="size-small-standard"
+              size="small"
+              options={top100Films}
+              getOptionLabel={(option) => option.title}
+              defaultValue={top100Films[13]}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="standard"
+                  label="Choose a stock"
+                  placeholder="Stock"
+                />
+              )}
+            />
+          </Grid>
+          <Grid item xs={8} />
+          <Grid item xs={12}>
+            <Paper className={classes.coPaper}>
+              <Title>{"SK하이닉스"}</Title>
+              <CoefficientChart class="mb-2" data={[
+                createData("2021-07-30", 112500),
+                createData("2021-08-02", 116000),
+                createData("2021-08-03", 120000),
+                createData("2021-08-04", 121000),
+                createData("2021-08-05", 120000),
+                createData("2021-08-06", 118000),
+                createData("2021-08-09", 116000),
+                createData("2021-08-10", 112500),
+                createData("2021-08-11", 105500),
+                createData("2021-08-12", 100500),
+                createData("2021-08-13", 101500),
+                createData("2021-08-17", 101500),
+                createData("2021-08-18", 104000),
+                createData("2021-08-19", 102500),
+                createData("2021-08-20", 102500),
+                createData("2021-08-23", 103000),
+                createData("2021-08-24", 105000),
+                createData("2021-08-25", 103500),
+                createData("2021-08-26", 104000),
+                createData("2021-08-27", 103500)
+              ]} />
+            </Paper>
+          </Grid>
+        </Grid>
+      </Paper>
+      {/* </Box> */}
+    </Container>
+
   );
-  // const classes = useStyles();
-  // return (
-  //   <Autocomplete
-  //     id="country-select-demo"
-  //     classes={classes}
-  //     sx={{ width: 300 }}
-  //     options={countries}
-  //     autoHighlight
-  //     getOptionLabel={(option) => option.label}
-  //     renderOption={(props, option) => (
-  //       <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
-  //         <img
-  //           loading="lazy"
-  //           width="20"
-  //           src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
-  //           srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
-  //           alt=""
-  //         />
-  //         {option.label} ({option.code}) +{option.phone}
-  //       </Box>
-  //     )}
-  //     renderInput={(params) => (
-  //       <Grid >
-  //         <Paper>
-  //           <TextField
-  //             {...params}
-  //             color="primary" 
-  //             focused
-  //             label="Choose a stock"
-  //             // size='small'
-  //             inputProps={{
-  //               ...params.inputProps,                
-  //               // className: classes.input
-  //             }}              
-  //           />
-  //         </Paper>
-  //       </Grid>
-  //     )}
-  //   />
-  // );
 }
 
 export default SearchContainer;
