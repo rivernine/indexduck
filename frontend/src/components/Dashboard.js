@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { Link } from 'react-router-dom';
 import clsx from 'clsx';
+
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
@@ -19,14 +21,14 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import Copyright from './Copyright';
-import logo from '../images/logo.png';
-import CoefficientChartGridContainer from './CoefficientChartGridContainer';
-import SearchContainer from './SearchContainer';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Zoom from '@mui/material/Zoom';
 import Fab from '@mui/material/Fab';
+
+import logo from '../images/logo.png';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { Link } from 'react-router-dom';
+import CoefficientChartGridContainer from './chart/CoefficientChartGridContainer';
+import SearchContainer from './search/SearchContainer';
 
 const drawerWidth = 240;
 

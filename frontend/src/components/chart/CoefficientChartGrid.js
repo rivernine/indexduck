@@ -3,8 +3,8 @@ import CoefficientChart from './CoefficientChart';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import Title from './Title';
-import StarPin from './StarPin';
+import Title from '../Title';
+import StarPin from '../StarPin';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
