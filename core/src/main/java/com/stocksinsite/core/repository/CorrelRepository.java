@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface CorrelRepository {
+  List<Map<String, Object>> getVolCums(String market, String offset);
   List<Map<String, Object>> getCorrels(String market, String offset);
   List<Map<String, Object>> getCorrel(String ticker);
 }

@@ -4,17 +4,30 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.stocksinsite.core.repository.CorrelRepository">
-  <select id="getCorrels" resultType="java.util.HashMap">
+  <select id="getVolCums" resultType="java.util.HashMap">
     SELECT date, closeNorm, name, insVolCumNorm, etcVolCumNorm, indVolCumNorm, forVolCumNorm
     FROM last_6m_norm
     WHERE ticker IN 
     (
       SELECT * FROM
       (
-        (SELECT ticker FROM stocks_info ORDER BY cap DESC LIMIT 100 OFFSET ${offset}) AS tmp
+        (SELECT ticker FROM stocks_info ORDER BY cap DESC LIMIT 2000 OFFSET ${offset}) AS tmp
       )
     )
   </select>
+  
+  <select id="getCorrels" resultType="java.util.HashMap">
+    SELECT name, insVolCum, etcVolCum, indVolCum, forVolCum
+    FROM correl
+    WHERE period = 'last_6m' 
+    AND ticker IN 
+      (
+        SELECT * FROM
+        (
+          (SELECT ticker FROM stocks_info ORDER BY cap DESC LIMIT 2000 OFFSET ${offset}) AS tmp
+        )
+      )
+    </select>
   <select id="getCorrel" resultType="java.util.HashMap">
     SELECT date, name, close, insVolCum, etcVolCum, indVolCum, forVolCum FROM last_6m WHERE ticker=${ticker};
   </select>

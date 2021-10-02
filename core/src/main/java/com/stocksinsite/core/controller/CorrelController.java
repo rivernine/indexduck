@@ -16,11 +16,16 @@ public class CorrelController {
   @Autowired
   private CorrelService correlService;
 
+  @GetMapping("/getVolCums")
+  public List<Map<String, Object>> getVolCums(@RequestParam String market, @RequestParam(defaultValue="0") String offset ) {
+    return correlService.getVolCums(market, offset);
+  }
+  
   @GetMapping("/getCorrels")
   public List<Map<String, Object>> getCorrels(@RequestParam String market, @RequestParam(defaultValue="0") String offset ) {
     return correlService.getCorrels(market, offset);
   }
-  
+
   @GetMapping("/getCorrel")
   public Map<String, Object> getCorrel(@RequestParam String ticker){
     return correlService.getCorrel(ticker);

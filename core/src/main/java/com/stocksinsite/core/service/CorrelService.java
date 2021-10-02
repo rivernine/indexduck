@@ -15,6 +15,10 @@ public class CorrelService{
   @Autowired
   private CorrelRepository correlRepository;
 
+  public List<Map<String, Object>> getVolCums(String market, String offset) {
+    return correlRepository.getVolCums(market, offset);
+  }
+
   public List<Map<String, Object>> getCorrels(String market, String offset) {
     return correlRepository.getCorrels(market, offset);
   }
