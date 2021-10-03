@@ -14,11 +14,6 @@ import Title from '../Title';
 import StockInfoTable from './StockInfoTable';
 import StockHistoryTable from './StockHistoryTable';
 
-const top100Films = [
-  { title: 'The Shawshank Redemption', year: 1994 },
-  { title: 'The Godfather', year: 1972 },
-]
-
 const useStyles = makeStyles((theme) => ({
   coPaper: {
     padding: theme.spacing(2),
@@ -65,13 +60,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Item = styled(Paper)(({ theme }) => ({
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}));
-
 function createData(date, closeNorm, indVolCumNorm, insVolCumNorm, forVolCumNorm, etcVolCumNorm) {
   return { date, closeNorm, indVolCumNorm, insVolCumNorm, forVolCumNorm, etcVolCumNorm }
 }
@@ -85,6 +73,7 @@ function SearchContainer(props) {
 
   const [mounted, setMounted] = useState(false)
   const [stocks, setStocks] = useState(false)
+  const [selected, setSelected] = useState(false)
 
   if (!mounted) {
     fetch('/getStockList')
@@ -93,7 +82,7 @@ function SearchContainer(props) {
         var result = [];
         console.log(json)
         for (const item of json) {
-          result.push(createTicker("[" + item.ticker + "]" + item.name, item.ticker, item.name, item.market));
+          result.push(createTicker("[" + item.ticker + "] " + item.name, item.ticker, item.name, item.market));
         }
         setStocks(result)
       })
@@ -114,7 +103,12 @@ function SearchContainer(props) {
                 size="small"
                 options={stocks}
                 getOptionLabel={(option) => option.title}
-                // defaultValue={top100Films[13]}
+                onChange={(event, value) => {
+                  if (value !== null) {
+                    // setSelected(value.ticker)
+                    // console.log(value.ticker)
+                  }
+                }}
                 renderInput={(params) => (
                   <TextField
                     {...params}
@@ -156,7 +150,12 @@ function SearchContainer(props) {
             <StockHistoryTable />
           </Grid>
           <Grid item xs={8}>
-            <StockInfoTable />
+            {
+              !selected 
+              ? <StockInfoTable selected={selected}/>
+              : <StockInfoTable/>
+            }            
+            {/* <StockInfoTable selected={selected}/> */}
           </Grid>
         </Grid>
       </Box>

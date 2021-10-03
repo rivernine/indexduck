@@ -21,6 +21,10 @@ public class StockService {
     return stockRepository.getStockList();
   }
 
+  public List<Map<String, Object>> getStockInfo(String ticker){
+    return stockRepository.getStockInfo(ticker);
+  }
+
   public List<Map<String, Object>> getStockRangeCap(String market, String period, String start, String end) {
     return stockRepository.getStockRangeCap(market, period, start, end);
   }

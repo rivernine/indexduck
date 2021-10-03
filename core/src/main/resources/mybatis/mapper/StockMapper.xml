@@ -13,6 +13,11 @@
     SELECT ticker, name, market
     FROM stocks_info;    
   </select>
+  <select id="getStockInfo" resultType="java.util.HashMap">
+    SELECT * 
+    FROM stocks_info 
+    WHERE ticker='${ticker}';
+  </select>
   <select id="getStockRangeCap" resultType="java.util.HashMap">
     SELECT T2.date, T2.name, T2.closeNorm, T2.indVolCumNorm, T2.insVolCumNorm, T2.forVolCumNorm, T2.etcVolCumNorm
     FROM (
