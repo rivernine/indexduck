@@ -37,3 +37,21 @@ FROM (
 LEFT JOIN last_1m_norm AS T2
 ON T1.ticker = T2.ticker
 WHERE rnk <= 1;
+
+-- 시가총액, PER의 범위 내 기업들 중 correl의 순위 조회
+SELECT *
+FROM (
+  SELECT T1.ticker, T1.name, correl.period, correl.ForVolCum, RANK() OVER(ORDER BY correl.ForVolCum DESC) AS rnk, T1.cap, T1.per
+  FROM (
+    SELECT ticker, name, cap, per
+    FROM stocks_info
+    WHERE cap >= 1
+    AND cap <= 100000000000
+    AND per >= 1
+    AND per <= 10
+  ) AS T1
+  LEFT JOIN correl
+  ON T1.ticker = correl.ticker
+) AS JT1
+WHERE JT1.rnk >= 1
+AND JT1.rnk <= 10;
