@@ -23,6 +23,15 @@ public class StockController {
     return stockService.getStock(ticker, period);
   }
 
+  // 모든 기업들의 티커, 이름, 마켓을 조회한다.
+  // 
+  // -- Response
+  // 티커 | 이름 | 마켓
+  @GetMapping("/getStockList")
+  public List<Map<String, Object>> getStockList(){
+    return stockService.getStockList();
+  }
+
   // 시가총액의 지정순위에 속하는 기업들을 조회한다.
   // 
   // -- Request

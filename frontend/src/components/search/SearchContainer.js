@@ -1,14 +1,15 @@
+import * as React from 'react';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from "@material-ui/core/styles";
+import { useState, useEffect } from "react";
 import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
-import * as React from 'react';
-import CoefficientChart from '../chart/CoefficientChart';
 
+import CoefficientChart from '../chart/CoefficientChart';
 import Title from '../Title';
 import StockInfoTable from './StockInfoTable';
 import StockHistoryTable from './StockHistoryTable';
@@ -75,8 +76,32 @@ function createData(date, closeNorm, indVolCumNorm, insVolCumNorm, forVolCumNorm
   return { date, closeNorm, indVolCumNorm, insVolCumNorm, forVolCumNorm, etcVolCumNorm }
 }
 
+function createTicker(title, ticker, name, market) {
+  return { title, ticker, name, market }
+}
+
 function SearchContainer(props) {
   const classes = useStyles();
+
+  const [mounted, setMounted] = useState(false)
+  const [stocks, setStocks] = useState(false)
+
+  if (!mounted) {
+    fetch('/getStockList')
+      .then(res => res.json())
+      .then(json => {
+        var result = [];
+        console.log(json)
+        for (const item of json) {
+          result.push(createTicker("[" + item.ticker + "]" + item.name, item.ticker, item.name, item.market));
+        }
+        setStocks(result)
+      })
+  }
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   return (
     <Container maxWidth="100%">
@@ -87,9 +112,9 @@ function SearchContainer(props) {
               <Autocomplete
                 id="custom-autocomplete"
                 size="small"
-                options={top100Films}
+                options={stocks}
                 getOptionLabel={(option) => option.title}
-                defaultValue={top100Films[13]}
+                // defaultValue={top100Films[13]}
                 renderInput={(params) => (
                   <TextField
                     {...params}
@@ -128,10 +153,10 @@ function SearchContainer(props) {
             </Paper>
           </Grid>
           <Grid item xs={4}>
-            <StockHistoryTable/>
+            <StockHistoryTable />
           </Grid>
           <Grid item xs={8}>
-            <StockInfoTable/>
+            <StockInfoTable />
           </Grid>
         </Grid>
       </Box>
