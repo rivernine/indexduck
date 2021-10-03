@@ -3,21 +3,16 @@ import { DataGrid } from '@mui/x-data-grid';
 import { useDemoData } from '@mui/x-data-grid-generator';
 
 export default function StockInfoTable() {
-  const { data } = useDemoData({
-    dataSet: 'Commodity',
-    rowLength: 5,
-    maxColumns: 6,
-  });
   const columns = [
-    { 
-      field: 'ticker', 
-      headerName: '티커', 
-      width: 90 
+    {
+      field: 'ticker',
+      headerName: '티커',
+      width: 90
     },
-    { 
-      field: 'market', 
-      headerName: '분류', 
-      width: 90 
+    {
+      field: 'market',
+      headerName: '분류',
+      width: 90
     },
     {
       field: 'cap',
@@ -66,20 +61,20 @@ export default function StockInfoTable() {
   const rows = [
     { id: 1, ticker: '000660', market: 'KOSPI', cap: 75712245960000, bps: 71275, per: 14.9609375, pbr: 1.4599609375, eps: 6952, div: 1.1298828125, dps: 1170 }
   ];
-  
+
 
   return (
     <div style={{ height: 200, width: '100%' }}>
       <div style={{ display: 'flex', height: '100%' }}>
         <div style={{ flexGrow: 1 }}>
-          <DataGrid 
+          <DataGrid
             disableColumnFilter
             rows={rows}
             columns={columns.map((column) => ({
               ...column,
               sortable: false,
             }))}
-            />
+          />
         </div>
       </div>
     </div>
