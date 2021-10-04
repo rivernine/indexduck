@@ -1,10 +1,7 @@
 import React, { useState } from "react";
-import { Link } from 'react-router-dom';
-import clsx from 'clsx';
 
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
@@ -25,7 +22,6 @@ import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Zoom from '@mui/material/Zoom';
 import Fab from '@mui/material/Fab';
 
-import logo from '../images/logo.png';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import CoefficientChartGridContainer from './chart/CoefficientChartGridContainer';
 import SearchContainer from './search/SearchContainer';
@@ -128,7 +124,7 @@ function Dashboard(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  // const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const container = window !== undefined ? () => window().document.body : undefined;
   const [containerBody, setContainerBody] = useState("search");
   const onClickChart = () => setContainerBody("chart");
@@ -154,7 +150,7 @@ function Dashboard(props) {
         </ListItem>
         
       </List>
-
+ 
     </div>
   );
 
@@ -216,7 +212,8 @@ function Dashboard(props) {
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} id="back-to-top-anchor"/>
-        <Container maxWidth="100%" className={classes.container}>
+        {/* <Container maxWidth="100%" className={classes.container}> */}
+        <Container className={classes.container}>
           {
             containerBody === "chart"
               ? <CoefficientChartGridContainer />

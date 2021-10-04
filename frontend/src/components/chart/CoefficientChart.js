@@ -1,7 +1,6 @@
 import React from 'react';
 import { useTheme } from '@material-ui/core/styles';
-import { Tooltip, LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer, Legend, Surface, Symbols } from 'recharts';
-import _ from "lodash";
+import { Tooltip, LineChart, Line, XAxis, YAxis, ResponsiveContainer, Legend } from 'recharts';
 
 export default function CoefficientChart(props) {
   const theme = useTheme();

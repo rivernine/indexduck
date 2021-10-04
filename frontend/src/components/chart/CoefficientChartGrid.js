@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     height: 400,
     position: "relative",
-    overflow: "hidden"
+    // overflow: "hidden"
   }
 }));
 

@@ -6,7 +6,6 @@ import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import { styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 
 import CoefficientChart from '../chart/CoefficientChart';
@@ -22,7 +21,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     height: 500,
     position: "relative",
-    overflow: "hidden"
   },
   paper: {
     padding: theme.spacing(2),
@@ -33,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     height: 600,
     position: "relative",
-    overflow: "hidden",
   },
   paper2: {
     padding: theme.spacing(2),
@@ -44,7 +41,6 @@ const useStyles = makeStyles((theme) => ({
     width: 300,
     height: 600,
     position: "relative",
-    overflow: "hidden"
   },
   textfield: {
     "& .MuiInputBase-input.MuiAutocomplete-input": {
@@ -72,7 +68,7 @@ function SearchContainer(props) {
   const classes = useStyles();
 
   const [mounted, setMounted] = useState(false)
-  const [stocks, setStocks] = useState(false)
+  const [stocks, setStocks] = useState([])
   const [selected, setSelected] = useState(false)
 
   if (!mounted) {
@@ -80,7 +76,7 @@ function SearchContainer(props) {
       .then(res => res.json())
       .then(json => {
         var result = [];
-        console.log(json)
+        // console.log(json)
         for (const item of json) {
           result.push(createTicker("[" + item.ticker + "] " + item.name, item.ticker, item.name, item.market));
         }
@@ -93,7 +89,7 @@ function SearchContainer(props) {
   }, [])
 
   return (
-    <Container maxWidth="100%">
+    <Container >
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
           <Grid item xs={8}>

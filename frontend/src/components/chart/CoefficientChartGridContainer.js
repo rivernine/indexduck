@@ -1,5 +1,4 @@
 import React from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
 import CoefficientChartGrid from './CoefficientChartGrid';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -121,10 +120,8 @@ class CoefficientChartGridContainer extends React.Component {
     });
   };
 
-
-
   render() {
-    const { displayList, starList, isLoaded } = this.state;
+    const { displayList, isLoaded } = this.state;
     const gridList = displayList.map(
       stock => (
         <CoefficientChartGrid
