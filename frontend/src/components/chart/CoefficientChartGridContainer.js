@@ -26,48 +26,14 @@ class CoefficientChartGridContainer extends React.Component {
   }
 
   componentWillMount() {
-    fetch('/getCorrels?market="kospi"&offset=0')
-    // fetch('/getStockOrderByCap?market=KOSPI&period=1&start=1&end=100')
+    fetch('/correlRank?market=KOSPI&startCap=100000000000&endCap=1000000000000&startPer=10&endPer=100&period=12&investor=for')
       .then(res => res.json())
-      // .then(json => console.log(json))
       .then(json => {
-        var id = 0;
-        var holder = {
-          id: -1,
-          name: "null",
-          data: [],
-        };
-        var result = [];
-        for (const item of json) {
-          // first company
-          if (holder.name === "null") {
-            holder.id = id;
-            holder.name = item.name;
-            holder.data.push(
-              createData(item.date, item.closeNorm, item.indVolCumNorm, item.insVolCumNorm, item.forVolCumNorm, item.etcVolCumNorm)
-            )
-          // same company
-          } else if (holder.name === item.name) {
-            holder.data.push(
-              createData(item.date, item.closeNorm, item.indVolCumNorm, item.insVolCumNorm, item.forVolCumNorm, item.etcVolCumNorm)
-            )
-          // different company
-          } else if (holder.name !== item.name) {
-            result.push(holder);
-            id ++;
-            holder = {
-              id: id,
-              name: item.name,
-              data: [],
-            };
-          } 
-        }
-        // push last holder
-        result.push(holder);
-        console.log(result);
+
+        console.log(json);
         this.setState({
-          entireList: result,
-          displayList: result.slice(0, 12),
+          entireList: json,
+          displayList: json.slice(0, 12),
           isLoaded: true
         });
       });
@@ -125,9 +91,9 @@ class CoefficientChartGridContainer extends React.Component {
     const gridList = displayList.map(
       stock => (
         <CoefficientChartGrid
-          key={stock.id}
+          key={stock.rank}
           name={stock.name}
-          data={stock.data}
+          data={stock.graphData}
         />
       )
     );
