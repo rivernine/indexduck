@@ -1,7 +1,23 @@
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
+import { makeStyles } from '@mui/styles';
+import clsx from 'clsx';
 
-export default function StockHistoryTable() {
+const useStyles = makeStyles({
+  root: {
+    '& .super-app.negative': {
+      color: 'rgba(157, 255, 118, 0.49)',
+      fontWeight: '600',
+    },
+    '& .super-app.positive': {
+      color: '#d47483',
+      fontWeight: '600',
+    },
+  },
+});
+
+export default function StockHistoryTable(props) {
+  const classes = useStyles();
   const columns = [
     { 
       field: 'date', 
@@ -9,49 +25,55 @@ export default function StockHistoryTable() {
       width: 100 
     },
     { 
-      field: 'ind', 
+      field: 'indVol', 
       headerName: '개인', 
-      width: 90 
-    },
-    {
-      field: 'ins',
-      headerName: '기관',
-      // type: 'number',
       width: 90,
+      cellClassName: (params) =>
+      clsx('super-app', {
+        negative: params.value < 0,
+        positive: params.value > 0,
+      }),
     },
     {
-      field: 'for',
+      field: 'insVol',
+      headerName: '기관',
+      width: 90,
+      cellClassName: (params) =>
+      clsx('super-app', {
+        negative: params.value < 0,
+        positive: params.value > 0,
+      }),
+    },
+    {
+      field: 'forVol',
       headerName: '외국인',
-      // type: 'number',
       width: 100,
+      cellClassName: (params) =>
+      clsx('super-app', {
+        negative: params.value < 0,
+        positive: params.value > 0,
+      }),
     },
     {
-      field: 'etc',
+      field: 'etcVol',
       headerName: '기타법인',
-      // type: 'number',
       width: 110,
+      cellClassName: (params) =>
+      clsx('super-app', {
+        negative: params.value < 0,
+        positive: params.value > 0,
+      }),
     },
     
   ]
 
-  const rows = [
-    { id: 1, date: '2021/10/01', ind: 9203, ins: -1475, for: 16437, etc: -15000},
-    { id: 2, date: '2021/09/30', ind: 1503, ins: -1475, for: 137, etc: 15660},
-    { id: 3, date: '2021/09/29', ind: 962203, ins: 156475, for: 6437, etc: 437000},
-    { id: 4, date: '2021/09/28', ind: 927503, ins: 81475, for: -437, etc: 9000},
-    { id: 5, date: '2021/09/27', ind: 339203, ins: 14755, for: -9437, etc: 23400},
-    { id: 6, date: '2021/09/24', ind: 96203, ins: -775, for: -647, etc: -15000},
-    { id: 7, date: '2021/09/23', ind: -29203, ins: -61475, for: -30437, etc: -606},
-  ];
-  
-
   return (
     <div style={{ height: '100%', width: '100%' }}>
       <div style={{ display: 'flex', height: '100%' }}>
-        <div style={{ flexGrow: 1 }}>
+        <div style={{ flexGrow: 1 }} className={classes.root}>
         <DataGrid 
             disableColumnFilter
-            rows={rows}
+            rows={props.selectedHistory}
             columns={columns.map((column) => ({
               ...column,
               sortable: false,

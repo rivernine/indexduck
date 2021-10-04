@@ -44,6 +44,19 @@ public class StockController {
     return stockService.getStockInfo(ticker);
   }
 
+  // 하나의 기업의 일자별 순매수현황을 조회한다.
+  // 
+  // -- Request
+  // - ticker(티커)
+  // 
+  // -- Response
+  // 일자 | 개인순매수 | 기관순매수 | 외국인순매수 | 기타법인순매수
+  @GetMapping("/getStockHistory")
+  public List<Map<String, Object>> getStockHistory(@RequestParam String ticker){
+    return stockService.getStockHistory(ticker);
+  }
+
+
   // 시가총액의 지정순위에 속하는 기업들을 조회한다.
   // 
   // -- Request

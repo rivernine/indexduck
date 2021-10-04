@@ -64,19 +64,23 @@ function createTicker(title, ticker, name, market) {
   return { title, ticker, name, market }
 }
 
+function createHistory(id, date, indVol, insVol, forVol, etcVol) {
+  return {id, date, indVol, insVol, forVol, etcVol}
+}
+
 function SearchContainer(props) {
   const classes = useStyles();
 
   const [mounted, setMounted] = useState(false)
   const [stocks, setStocks] = useState([])
   const [selectedInfo, setSelectedInfo] = useState([])
+  const [selectedHistory, setSelectedHistory] = useState([])
 
   if (!mounted) {
     fetch('/getStockList')
       .then(res => res.json())
       .then(json => {
         var result = [];
-        // console.log(json)
         for (const item of json) {
           result.push(createTicker("[" + item.ticker + "] " + item.name, item.ticker, item.name, item.market));
         }
@@ -104,12 +108,23 @@ function SearchContainer(props) {
                     fetch('/getStockInfo?ticker=' + value.ticker)
                       .then(res => res.json())
                       .then(json => {
-                        json["id"] = 1 
+                        json["id"] = 1
                         setSelectedInfo([json])
+                      })
+                    fetch('/getStockHistory?ticker=' + value.ticker)
+                      .then(res => res.json())
+                      .then(json => {
+                        var id = 0
+                        var result = []
+                        for(const item of json) {
+                          result.push(createHistory(id++, item.date, item.indVol, item.insVol, item.forVol, item.etcVol))
+                        }
+                        setSelectedHistory(result)
                       })
                   }
                   else {
                     setSelectedInfo([])
+                    setSelectedHistory([])
                   }
                 }}
                 renderInput={(params) => (
@@ -150,7 +165,7 @@ function SearchContainer(props) {
             </Paper>
           </Grid>
           <Grid item xs={4}>
-            <StockHistoryTable />
+            <StockHistoryTable selectedHistory={selectedHistory} />
           </Grid>
           <Grid item xs={8}>
             <StockInfoTable selectedInfo={selectedInfo} />
