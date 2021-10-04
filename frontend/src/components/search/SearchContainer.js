@@ -1,17 +1,16 @@
 import * as React from 'react';
+import { useState, useEffect } from "react";
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from "@material-ui/core/styles";
-import { useState, useEffect } from "react";
 import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 
-import CoefficientChart from '../chart/CoefficientChart';
-import Title from '../Title';
 import StockInfoTable from './StockInfoTable';
 import StockHistoryTable from './StockHistoryTable';
+import StockChart from './StockChart';
 
 const useStyles = makeStyles((theme) => ({
   coPaper: {
@@ -19,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
-    height: 500,
+    height: "100%",
     position: "relative",
   },
   paper: {
@@ -56,8 +55,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function createData(date, closeNorm, indVolCumNorm, insVolCumNorm, forVolCumNorm, etcVolCumNorm) {
-  return { date, closeNorm, indVolCumNorm, insVolCumNorm, forVolCumNorm, etcVolCumNorm }
+function createChart(id, date, closeNorm, indVolCumNorm, insVolCumNorm, forVolCumNorm, etcVolCumNorm) {
+  return {id, date, closeNorm, indVolCumNorm, insVolCumNorm, forVolCumNorm, etcVolCumNorm}
 }
 
 function createTicker(title, ticker, name, market) {
@@ -65,7 +64,7 @@ function createTicker(title, ticker, name, market) {
 }
 
 function createHistory(id, date, indVol, insVol, forVol, etcVol) {
-  return {id, date, indVol, insVol, forVol, etcVol}
+  return { id, date, indVol, insVol, forVol, etcVol }
 }
 
 function SearchContainer(props) {
@@ -73,6 +72,8 @@ function SearchContainer(props) {
 
   const [mounted, setMounted] = useState(false)
   const [stocks, setStocks] = useState([])
+  const [selected, setSelected] = useState("")
+  const [selectedChart, setSelectedChart] = useState([])
   const [selectedInfo, setSelectedInfo] = useState([])
   const [selectedHistory, setSelectedHistory] = useState([])
 
@@ -81,9 +82,8 @@ function SearchContainer(props) {
       .then(res => res.json())
       .then(json => {
         var result = [];
-        for (const item of json) {
+        for (const item of json) 
           result.push(createTicker("[" + item.ticker + "] " + item.name, item.ticker, item.name, item.market));
-        }
         setStocks(result)
       })
   }
@@ -105,6 +105,16 @@ function SearchContainer(props) {
                 getOptionLabel={(option) => option.title}
                 onChange={(event, value) => {
                   if (value !== null) {
+                    setSelected(value.name)
+                    fetch('/getStock?ticker=' + value.ticker + "&period=12")
+                      .then(res => res.json())
+                      .then(json => {
+                        var id = 0
+                        var result = []
+                        for (const item of json) 
+                          result.push(createChart(id++, item.date, item.closeNorm, item.indVolCumNorm, item.insVolCumNorm, item.forVolCumNorm, item.etcVolCumNorm))
+                        setSelectedChart(result)
+                      })
                     fetch('/getStockInfo?ticker=' + value.ticker)
                       .then(res => res.json())
                       .then(json => {
@@ -116,13 +126,14 @@ function SearchContainer(props) {
                       .then(json => {
                         var id = 0
                         var result = []
-                        for(const item of json) {
+                        for (const item of json) 
                           result.push(createHistory(id++, item.date, item.indVol, item.insVol, item.forVol, item.etcVol))
-                        }
                         setSelectedHistory(result)
                       })
                   }
                   else {
+                    setSelected("")
+                    setSelectedChart([])
                     setSelectedInfo([])
                     setSelectedHistory([])
                   }
@@ -138,29 +149,7 @@ function SearchContainer(props) {
                 )}
               />
               <Paper className={classes.coPaper}>
-                <Title>{"SK하이닉스"}</Title>
-                <CoefficientChart class="mb-2" data={[
-                  createData("2021-07-30", 112500),
-                  createData("2021-08-02", 116000),
-                  createData("2021-08-03", 120000),
-                  createData("2021-08-04", 121000),
-                  createData("2021-08-05", 120000),
-                  createData("2021-08-06", 118000),
-                  createData("2021-08-09", 116000),
-                  createData("2021-08-10", 112500),
-                  createData("2021-08-11", 105500),
-                  createData("2021-08-12", 100500),
-                  createData("2021-08-13", 101500),
-                  createData("2021-08-17", 101500),
-                  createData("2021-08-18", 104000),
-                  createData("2021-08-19", 102500),
-                  createData("2021-08-20", 102500),
-                  createData("2021-08-23", 103000),
-                  createData("2021-08-24", 105000),
-                  createData("2021-08-25", 103500),
-                  createData("2021-08-26", 104000),
-                  createData("2021-08-27", 103500)
-                ]} />
+                <StockChart selected={selected} selectedChart={selectedChart}/>
               </Paper>
             </Paper>
           </Grid>
