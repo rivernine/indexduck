@@ -1,8 +1,11 @@
 package com.stocksinsite.core.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.stocksinsite.core.dto.CorrelRankByVolCumRequestDTO;
+import com.stocksinsite.core.dto.CorrelRankByVolCumResponseDTO;
 import com.stocksinsite.core.service.RankService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +14,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+// @RequestMapping("/rnk")
 public class RankController {
+  
   @Autowired
   private RankService rankService;
   
+  @GetMapping("/correlRank")
+  public ArrayList<CorrelRankByVolCumResponseDTO> CorrelRankByVolCum(CorrelRankByVolCumRequestDTO dto) {
+    return rankService.CorrelRankByVolCum(dto);
+  }
+
   // start, end(순위)
   @GetMapping("/getRankByCap")
   public List<Map<String, Object>> getRankByCap(@RequestParam String start, @RequestParam String end) {
