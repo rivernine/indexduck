@@ -213,7 +213,6 @@ function Dashboard(props) {
       <main className={classes.content}>
         <div className={classes.toolbar} id="back-to-top-anchor"/>
         <Container maxWidth="xl" className={classes.container}>
-        {/* <Container className={classes.container}> */}
           {
             containerBody === "chart"
               ? <CoefficientChartGridContainer />

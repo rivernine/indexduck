@@ -69,7 +69,6 @@ function SearchContainer(props) {
 
   const [mounted, setMounted] = useState(false)
   const [stocks, setStocks] = useState([])
-  const [selected, setSelected] = useState(null)
   const [selectedInfo, setSelectedInfo] = useState([])
 
   if (!mounted) {
@@ -105,14 +104,11 @@ function SearchContainer(props) {
                     fetch('/getStockInfo?ticker=' + value.ticker)
                       .then(res => res.json())
                       .then(json => {
-                        console.log(json)
                         json["id"] = 1 
-                        setSelected(value.ticker)
                         setSelectedInfo([json])
                       })
                   }
                   else {
-                    setSelected(null)
                     setSelectedInfo([])
                   }
                 }}
@@ -158,11 +154,6 @@ function SearchContainer(props) {
           </Grid>
           <Grid item xs={8}>
             <StockInfoTable selectedInfo={selectedInfo} />
-            {/* {
-              selected !== null
-              ? <StockInfoTable selected={selected}/>
-              : <StockInfoTable/>
-            }             */}
           </Grid>
         </Grid>
       </Box>
