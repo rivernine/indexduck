@@ -69,7 +69,8 @@ function SearchContainer(props) {
 
   const [mounted, setMounted] = useState(false)
   const [stocks, setStocks] = useState([])
-  const [selected, setSelected] = useState(false)
+  const [selected, setSelected] = useState(null)
+  const [selectedInfo, setSelectedInfo] = useState([])
 
   if (!mounted) {
     fetch('/getStockList')
@@ -89,7 +90,7 @@ function SearchContainer(props) {
   }, [])
 
   return (
-    <Container >
+    <Container maxWidth="xl">
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
           <Grid item xs={8}>
@@ -101,8 +102,18 @@ function SearchContainer(props) {
                 getOptionLabel={(option) => option.title}
                 onChange={(event, value) => {
                   if (value !== null) {
-                    // setSelected(value.ticker)
-                    // console.log(value.ticker)
+                    fetch('/getStockInfo?ticker=' + value.ticker)
+                      .then(res => res.json())
+                      .then(json => {
+                        console.log(json)
+                        json["id"] = 1 
+                        setSelected(value.ticker)
+                        setSelectedInfo([json])
+                      })
+                  }
+                  else {
+                    setSelected(null)
+                    setSelectedInfo([])
                   }
                 }}
                 renderInput={(params) => (
@@ -146,12 +157,12 @@ function SearchContainer(props) {
             <StockHistoryTable />
           </Grid>
           <Grid item xs={8}>
-            {
-              !selected 
+            <StockInfoTable selectedInfo={selectedInfo} />
+            {/* {
+              selected !== null
               ? <StockInfoTable selected={selected}/>
               : <StockInfoTable/>
-            }            
-            {/* <StockInfoTable selected={selected}/> */}
+            }             */}
           </Grid>
         </Grid>
       </Box>

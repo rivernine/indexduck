@@ -7,7 +7,7 @@ function StockInfoTable(props) {
 
   const [mounted, setMounted] = useState(false)
   const [stocks, setStocks] = useState(false)
-  const [row, setRow] = useState(false)
+  const [row, setRow] = useState([{ id: 1, ticker: '000660', name: 'SK 하이닉스', market: 'KOSPI', cap: 75712245960000, bps: 71275, per: 14.9609375, pbr: 1.4599609375, eps: 6952, div: 1.1298828125, dps: 1170 }])
   const columns = [
     {
       field: 'ticker',
@@ -72,22 +72,27 @@ function StockInfoTable(props) {
     { id: 1, ticker: '000660', name: 'SK 하이닉스', market: 'KOSPI', cap: 75712245960000, bps: 71275, per: 14.9609375, pbr: 1.4599609375, eps: 6952, div: 1.1298828125, dps: 1170 }
   ];
 
-  function createData(ticker, name, market, cap, bps, per, pbr, eps, div, dps) {
-    return { ticker, name, market, cap, bps, per, pbr, eps, div, dps }
+  function createRow(id, ticker, name, market, cap, bps, per, pbr, eps, div, dps) {
+    return { id, ticker, name, market, cap, bps, per, pbr, eps, div, dps }
   }
 
   if (!mounted) {
-    // console.log(props.selected)
-    // if (!props.selected){
+    console.log("<StockInfoTable>" + props.selectedInfo)
+    // const info = props.selectedInfo
+    // if (info !== null)
+      // console.log([createRow(1, info.ticker, info.name, info.market, info.cap, info.bps, info.per, info.pbr, info.eps, info.div, info.dps)])
+      // setRow([createRow(1, info.ticker, info.name, info.market, info.cap, info.bps, info.per, info.pbr, info.eps, info.div, info.dps)])
+    // if (props.selected !== null){
     //   fetch('/getStockInfo?ticker=' + props.selected)
     //     .then(res => res.json())
     //     .then(json => {
-    //       var result = [];
     //       console.log(json)
-    //       for (const item of json) {
-    //         result.push(createData(item.ticker, item.name, item.market, item.cap, item.bps, item.per, item.pbr, item.eps, item.div, item.dps));
-    //       }
-    //       setRow(result)
+    //       // var result = [];
+    //       // console.log(json)
+    //       // for (const item of json) {
+    //       //   result.push(createData(item.ticker, item.name, item.market, item.cap, item.bps, item.per, item.pbr, item.eps, item.div, item.dps));
+    //       // }
+    //       // setRow(result)
     //     })
     // }
   }
@@ -98,7 +103,7 @@ function StockInfoTable(props) {
         <div style={{ flexGrow: 1 }}>
           <DataGrid
             disableColumnFilter
-            rows={rows}
+            rows={props.selectedInfo}
             columns={columns.map((column) => ({
               ...column,
               sortable: false,

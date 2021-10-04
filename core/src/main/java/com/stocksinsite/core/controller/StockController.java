@@ -40,7 +40,7 @@ public class StockController {
   // -- Response
   // 티커 | 이름 | 마켓
   @GetMapping("/getStockInfo")
-  public List<Map<String, Object>> getStockInfo(@RequestParam String ticker){
+  public Map<String, Object> getStockInfo(@RequestParam String ticker){
     return stockService.getStockInfo(ticker);
   }
 

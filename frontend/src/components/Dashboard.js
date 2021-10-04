@@ -212,8 +212,8 @@ function Dashboard(props) {
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} id="back-to-top-anchor"/>
-        {/* <Container maxWidth="100%" className={classes.container}> */}
-        <Container className={classes.container}>
+        <Container maxWidth="xl" className={classes.container}>
+        {/* <Container className={classes.container}> */}
           {
             containerBody === "chart"
               ? <CoefficientChartGridContainer />

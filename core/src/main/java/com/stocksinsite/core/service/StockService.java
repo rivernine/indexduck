@@ -21,7 +21,7 @@ public class StockService {
     return stockRepository.getStockList();
   }
 
-  public List<Map<String, Object>> getStockInfo(String ticker){
+  public Map<String, Object> getStockInfo(String ticker){
     return stockRepository.getStockInfo(ticker);
   }
 
