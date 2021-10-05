@@ -106,7 +106,7 @@ function SearchContainer(props) {
                 onChange={(event, value) => {
                   if (value !== null) {
                     setSelected(value.name)
-                    fetch('/getStock?ticker=' + value.ticker + "&period=12")
+                    fetch('/getStock?ticker=' + value.ticker + "&period=3")
                       .then(res => res.json())
                       .then(json => {
                         var id = 0
