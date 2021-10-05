@@ -22,7 +22,8 @@ dependencies {
 		'ch.qos.logback:logback-core:1.2.3',													// Logback
 		'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.1',
 		'org.mariadb.jdbc:mariadb-java-client:2.7.2',
-		'org.springframework.boot:spring-boot-starter-jdbc'					// Jdbc
+		'org.springframework.boot:spring-boot-starter-jdbc',				// Jdbc
+		'com.google.code.gson:gson:2.8.2'
 	)
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

@@ -4,6 +4,42 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.stocksinsite.core.repository.RankRepository">
+
+  <select id="getVolCumNormGraphData" resultType="com.stocksinsite.core.entity.VolCumNormGraphData"
+      parameterType="com.stocksinsite.core.dao.GraphDataQueryDAO">
+    SELECT ticker, DATE, closeNorm, insVolCumNorm, etcVolCumNorm, indVolCumNorm, forVolCumNorm
+    FROM last_${period}m_norm
+    WHERE ticker IN 
+    <foreach item="ticker" collection="tickers" separator=", " open="(" close=")">
+      #{ticker}
+    </foreach>
+  </select>
+
+  <select id="getCorrelRankByVolCum" resultType="com.stocksinsite.core.dto.CorrelRankByVolCumResponseDTO"
+      parameterType="com.stocksinsite.core.dao.StockInfoQueryDAO">
+    SELECT T1.ticker
+         , T1.name
+         , T1.cap
+         , T1.per
+         , correl.indVolCum AS indVolCumCorrel
+         , correl.insVolCum AS insVolCumCorrel
+         , correl.forVolCum AS forVolCumCorrel
+         , correl.etcVolCum AS etcVolCumCorrel
+         , RANK() OVER(ORDER BY correl.${investor}VolCum DESC) AS rank
+    FROM (
+      SELECT ticker, name, cap, per
+      FROM stocks_info
+      WHERE market = '${market}'
+      <![CDATA[AND cap >= ${startCap}]]>
+      <![CDATA[AND cap <= ${endCap}]]>
+      <![CDATA[AND per >= ${startPer}]]> 
+      <![CDATA[AND per <= ${endPer}]]>
+    ) AS T1
+    LEFT JOIN correl ON T1.ticker = correl.ticker
+    WHERE period = 'last_${period}m'
+    LIMIT 100
+  </select>
+
   <select id="getRankByCap" resultType="java.util.HashMap">
     SELECT *
     FROM (
