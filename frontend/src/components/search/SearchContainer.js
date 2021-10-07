@@ -67,17 +67,57 @@ function createHistory(id, date, indVol, insVol, forVol, etcVol) {
   return { id, date, indVol, insVol, forVol, etcVol }
 }
 
+
+
 function SearchContainer(props) {
   const classes = useStyles();
 
   const [mounted, setMounted] = useState(false)
   const [stocks, setStocks] = useState([])
   const [selected, setSelected] = useState("")
+  const [selectedValue, setSelectedValue] = useState(undefined)
   const [selectedChart, setSelectedChart] = useState([])
   const [selectedInfo, setSelectedInfo] = useState([])
   const [selectedHistory, setSelectedHistory] = useState([])
 
-  if (!mounted) {
+  function onChange(event, value){
+    if (value !== null) {
+      setSelected(value.name)
+      fetch('/getStock?ticker=' + value.ticker + "&period=3")
+        .then(res => res.json())
+        .then(json => {
+          var id = 0
+          var result = []
+          for (const item of json) 
+            result.push(createChart(id++, item.date, item.closeNorm, item.indVolCumNorm, item.insVolCumNorm, item.forVolCumNorm, item.etcVolCumNorm))
+          setSelectedChart(result)
+        })
+      fetch('/getStockInfo?ticker=' + value.ticker)
+        .then(res => res.json())
+        .then(json => {
+          json["id"] = 1
+          setSelectedInfo([json])
+        })
+      fetch('/getStockHistory?ticker=' + value.ticker)
+        .then(res => res.json())
+        .then(json => {
+          var id = 0
+          var result = []
+          for (const item of json) 
+            result.push(createHistory(id++, item.date, item.indVol, item.insVol, item.forVol, item.etcVol))
+          setSelectedHistory(result)
+        })
+    }
+    else {
+      setSelected("")
+      setSelectedChart([])
+      setSelectedInfo([])
+      setSelectedHistory([])
+    }
+  }
+
+  useEffect(() => {
+    if (!mounted){
     fetch('/getStockList')
       .then(res => res.json())
       .then(json => {
@@ -86,11 +126,20 @@ function SearchContainer(props) {
           result.push(createTicker("[" + item.ticker + "] " + item.name, item.ticker, item.name, item.market));
         setStocks(result)
       })
-  }
+    setMounted(true)
+    }
+  }, [mounted])
 
   useEffect(() => {
-    setMounted(true)
-  }, [])
+    if (selectedValue !== undefined) {
+      onChange(null, selectedValue)
+    }
+  }, [selectedValue])
+
+  useEffect(() => {
+    setSelectedValue(stocks.find((stock) => stock.ticker === "005930"))
+  }, [stocks])
+
 
   return (
     <Container maxWidth="xl">
@@ -103,41 +152,7 @@ function SearchContainer(props) {
                 size="small"
                 options={stocks}
                 getOptionLabel={(option) => option.title}
-                onChange={(event, value) => {
-                  if (value !== null) {
-                    setSelected(value.name)
-                    fetch('/getStock?ticker=' + value.ticker + "&period=3")
-                      .then(res => res.json())
-                      .then(json => {
-                        var id = 0
-                        var result = []
-                        for (const item of json) 
-                          result.push(createChart(id++, item.date, item.closeNorm, item.indVolCumNorm, item.insVolCumNorm, item.forVolCumNorm, item.etcVolCumNorm))
-                        setSelectedChart(result)
-                      })
-                    fetch('/getStockInfo?ticker=' + value.ticker)
-                      .then(res => res.json())
-                      .then(json => {
-                        json["id"] = 1
-                        setSelectedInfo([json])
-                      })
-                    fetch('/getStockHistory?ticker=' + value.ticker)
-                      .then(res => res.json())
-                      .then(json => {
-                        var id = 0
-                        var result = []
-                        for (const item of json) 
-                          result.push(createHistory(id++, item.date, item.indVol, item.insVol, item.forVol, item.etcVol))
-                        setSelectedHistory(result)
-                      })
-                  }
-                  else {
-                    setSelected("")
-                    setSelectedChart([])
-                    setSelectedInfo([])
-                    setSelectedHistory([])
-                  }
-                }}
+                onChange={(event, value) => {onChange(event, value)}}
                 renderInput={(params) => (
                   <TextField
                     {...params}

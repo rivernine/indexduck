@@ -2,6 +2,7 @@ import './App.css';
 import Dashboard from './components/Dashboard';
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 // import { Route } from 'react-router-dom';
+// import { createContext } from "react";
 
 const darkTheme = createTheme({
   typography: {
@@ -24,6 +25,8 @@ const darkTheme = createTheme({
     etc: '#00D7A7', // green
   },
 });
+
+// const SelectedContext = createContext("")
 
 function App() {
   return (
