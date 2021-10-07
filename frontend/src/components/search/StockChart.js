@@ -1,5 +1,5 @@
 import CoefficientChart from '../chart/CoefficientChart';
-import Title from '../Title';
+import Title from '../chart/Title';
 
 export default function StockChart(props) {
   return (

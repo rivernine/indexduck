@@ -33,19 +33,28 @@ public class RankService {
     // 조건에 맞는 티커들 상관계수 랭킹으로 조회
     ArrayList<CorrelRankByVolCumResponseDTO> result = rankRepository.getCorrelRankByVolCum(dto.toStockInfoQueryDAO());
 
-    // 조회된 티커에 대한 정규화 그래프 정보 조회
-    List<String> tickers = result.stream().map(s->s.getTicker()).collect(Collectors.toList());    
-    GraphDataQueryDAO queryDao = new GraphDataQueryDAO(dto.getPeriod(), tickers);
-    ArrayList<VolCumNormGraphData> graphData = rankRepository.getVolCumNormGraphData(queryDao);
+    LOGGER.info("query result size:" + result.size());
 
-    // 각 티커에 그래프 데이터 추가
-    for (VolCumNormGraphData data : graphData) {
-      for (CorrelRankByVolCumResponseDTO dtoElement : result) {
-        if (data.getTicker().equals(dtoElement.getTicker())) {
-          dtoElement.getGraphData().add(data);
-          break;
+    // 조회 조건에 데이터가 없을 경우
+    if (result.size() == 0) {
+      return result;
+    } else {
+      
+      // 조회된 티커에 대한 정규화 그래프 정보 조회
+      List<String> tickers = result.stream().map(s->s.getTicker()).collect(Collectors.toList());    
+      GraphDataQueryDAO queryDao = new GraphDataQueryDAO(dto.getPeriod(), tickers);
+      ArrayList<VolCumNormGraphData> graphData = rankRepository.getVolCumNormGraphData(queryDao);
+  
+      // 각 티커에 그래프 데이터 추가
+      for (VolCumNormGraphData data : graphData) {
+        for (CorrelRankByVolCumResponseDTO dtoElement : result) {
+          if (data.getTicker().equals(dtoElement.getTicker())) {
+            dtoElement.getGraphData().add(data);
+            break;
+          }
         }
       }
+
     }
     // LOGGER.info(gson.toJson(result));
 

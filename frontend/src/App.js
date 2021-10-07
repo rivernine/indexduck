@@ -4,6 +4,11 @@ import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 // import { Route } from 'react-router-dom';
 
 const darkTheme = createTheme({
+  typography: {
+    h3: {
+      fontSize: '1.4rem'
+    },
+  },
   palette: {
     type: 'dark',
     background: {

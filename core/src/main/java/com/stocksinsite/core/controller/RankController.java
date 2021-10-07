@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.stocksinsite.core.dto.CorrelRankByVolCumRequestDTO;
 import com.stocksinsite.core.dto.CorrelRankByVolCumResponseDTO;
 import com.stocksinsite.core.service.RankService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,8 +24,11 @@ public class RankController {
   @Autowired
   private RankService rankService;
   
+  private static Logger LOGGER = LoggerFactory.getLogger(RankController.class);
+
   @GetMapping("/correlRank")
-  public ArrayList<CorrelRankByVolCumResponseDTO> CorrelRankByVolCum(CorrelRankByVolCumRequestDTO dto) {
+  public ArrayList<CorrelRankByVolCumResponseDTO> CorrelRankByVolCum(HttpServletRequest request, CorrelRankByVolCumRequestDTO dto) {
+    LOGGER.info("api request: " + request.getRequestURI());
     return rankService.CorrelRankByVolCum(dto);
   }
 
