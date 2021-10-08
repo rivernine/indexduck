@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTheme } from '@material-ui/core/styles';
-import { Tooltip, LineChart, Line, XAxis, YAxis, ResponsiveContainer, Legend } from 'recharts';
+import { Tooltip, LineChart, Line, XAxis, YAxis, ResponsiveContainer } from 'recharts';
 
 export default function CoefficientChart(props) {
   const theme = useTheme();
@@ -8,7 +8,7 @@ export default function CoefficientChart(props) {
 
   return (
     <React.Fragment>
-      <ResponsiveContainer width="100%" height="85%">
+      <ResponsiveContainer width="100%" height='70%'>
         <LineChart
           // width={300}
           // height={400}
@@ -31,15 +31,15 @@ export default function CoefficientChart(props) {
               Sales ($)
             </Label> */}
           </YAxis>
-          <Legend />
+          {/* <Legend verticalAlign="top"/> */}
           <Tooltip />
           {/* <Line type="monotone" dataKey="amount" stroke={theme.palette.primary.main} dot={false} /> */}
           
-          <Line name="종가" type="monotone" dataKey="closeNorm" stroke={theme.stock.close} strokeWidth="2.2" dot={false} />
-          <Line name="개인" type="monotone" dataKey="indVolCumNorm" stroke={theme.stock.ind} dot={false} /> 
-          <Line name="기관" type="monotone" dataKey="insVolCumNorm" stroke={theme.stock.ins} dot={false} /> 
-          <Line name="외국인" type="monotone" dataKey="forVolCumNorm" stroke={theme.stock.for} dot={false} /> 
-          <Line name="기타법인" type="monotone" dataKey="etcVolCumNorm" stroke={theme.stock.etc} dot={false} /> 
+          <Line name="종가" type="monotone" dataKey="closeNorm" stroke={theme.stock.close} strokeWidth="3" dot={false} />
+          <Line legendType="none" type="monotone" dataKey="indVolCumNorm" stroke={theme.stock.ind} dot={false} /> 
+          <Line legendType="none" type="monotone" dataKey="insVolCumNorm" stroke={theme.stock.ins} dot={false} /> 
+          <Line legendType="none" type="monotone" dataKey="forVolCumNorm" stroke={theme.stock.for} dot={false} /> 
+          <Line legendType="none" type="monotone" dataKey="etcVolCumNorm" stroke={theme.stock.etc} dot={false} /> 
           {/* <Line type="monotone" dataKey="amount2" stroke="#82ca9d" dot={false} /> */}
         </LineChart>
       </ResponsiveContainer>

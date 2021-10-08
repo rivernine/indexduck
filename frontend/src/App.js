@@ -9,6 +9,12 @@ const darkTheme = createTheme({
     h3: {
       fontSize: '1.4rem'
     },
+    subtitle1: {
+      fontSize: '1.1rem'
+    },
+    subtitle2: {
+      fontSize: '0.7rem'
+    },
   },
   palette: {
     type: 'dark',

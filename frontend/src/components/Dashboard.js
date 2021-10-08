@@ -21,6 +21,7 @@ import Copyright from './Copyright';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Zoom from '@mui/material/Zoom';
 import Fab from '@mui/material/Fab';
+import Avatar from '@mui/material/Avatar';
 
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import CoefficientChartGridContainer from './chart/CoefficientChartGridContainer';
@@ -90,7 +91,7 @@ function ScrollTop(props) {
   const trigger = useScrollTrigger({
     target: window ? window() : undefined,
     disableHysteresis: true,
-    threshold: 100,
+    threshold: 1000,
   });
 
   const handleClick = (event) => {
@@ -111,7 +112,7 @@ function ScrollTop(props) {
       <Box
         onClick={handleClick}
         role="presentation"
-        sx={{ position: 'fixed', bottom: 16, right: 16 }}
+        sx={{ position: 'fixed', bottom: 25, right: 25 }}
       >
         {children}
       </Box>
@@ -168,14 +169,12 @@ function Dashboard(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
-            Responsive drawer
+          <Avatar alt="Remy Sharp" sx={{ mr: 2, border: 0 }} src="/images/indexduck_logo.png" />
+          <Typography  variant="h6" noWrap>
+            유사도 순위 [누적순매수-종가]
           </Typography>
           
 
-          <Typography variant="h4" className={classes.logo} >
-            IndexDuck
-          </Typography>
 
         </Toolbar>
       </AppBar>
@@ -223,7 +222,7 @@ function Dashboard(props) {
           </Box>
         </Container>
         <ScrollTop {...props}>
-          <Fab color="secondary" size="medium" aria-label="scroll back to top">
+          <Fab color="primary" size="medium" aria-label="scroll back to top">
             <KeyboardArrowUpIcon />
           </Fab>
         </ScrollTop>

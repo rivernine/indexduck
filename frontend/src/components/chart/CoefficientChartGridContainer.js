@@ -65,7 +65,6 @@ class CoefficientChartGridContainer extends React.Component {
     this.setState({
       load: 'loading'
     });
-
     fetch('/correlRank?market='+this.state.market
         +'&startCap='+this.state.minCap
         +'&endCap='+this.state.maxCap
@@ -104,8 +103,12 @@ class CoefficientChartGridContainer extends React.Component {
   }
   
   trackScrolling = () => {
+    // if (this.state.entireList === null || this.state.displayList === null) {
+      // return
+    // }
     const wrappedElement = document.getElementById('gridContainer');
-    if (this.isBottom(wrappedElement)) {
+    // console.log(wrappedElement);
+    if (wrappedElement !== null && this.isBottom(wrappedElement)) {
       // console.log('header bottom reached');
       var currentLength = this.state.displayList.length;
       this.setState({
@@ -194,6 +197,7 @@ class CoefficientChartGridContainer extends React.Component {
     } else if (load === 'loaded')  {
       return (
         <Fragment>
+
           <CoefficientSearchForm
             handleMarketChange={this.handleMarketChange} market={this.state.market}
             handleMinCapChange={this.handleMinCapChange} minCap={this.state.minCap}

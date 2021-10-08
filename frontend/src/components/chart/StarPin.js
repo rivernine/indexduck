@@ -11,7 +11,7 @@ export default function StarPin(props) {
   return (
     <IconButton 
       size="medium" 
-      style={{ position: "absolute", top: "8px", right: "8px" }}
+      style={{ position: "absolute", top: "6px", right: "6px" }}
       onClick={handleStarClick}>
       {/* <SearchIcon color={star ? "inherit" : "disabled"}/> */}
       <QueryStatsIcon color="inherit"/>
