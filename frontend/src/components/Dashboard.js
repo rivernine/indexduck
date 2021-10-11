@@ -170,7 +170,6 @@ function Dashboard(props) {
           <Avatar alt="Remy Sharp" sx={{ mr: 2, border: 0 }} src="/images/indexduck_logo.png" />
           <Typography variant="h6" noWrap>
             {appBarStr}
-            {/* 유사도 순위 [누적순매수-종가] */}
           </Typography>
 
 

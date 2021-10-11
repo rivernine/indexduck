@@ -4,7 +4,6 @@ import React from 'react';
 import { useTheme } from '@material-ui/core/styles';
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Legend } from 'recharts';
 
-
 export default function StockChart(props) {
   const theme = useTheme();
   return (
@@ -15,7 +14,7 @@ export default function StockChart(props) {
           : <Title>{props.selected}</Title>
       }
       <React.Fragment>
-      <ResponsiveContainer width="100%" height='90%'>
+      <ResponsiveContainer className="watermark" width="100%" height='90%'>
         <LineChart
           data={props.selectedChart}
           margin={{

@@ -36,3 +36,23 @@
     transform: rotate(360deg);
   }
 }
+
+.watermark {
+  position: relative;
+}
+
+.watermark:after {
+  content: "";
+  display: block;
+  pointer-events: none;
+  width: 300px;
+  height: 300px;
+  position: absolute;
+  top: 50px;
+  right: 5px;      
+  background-image: url("./indexduck_logo.png");
+  background-size: auto;
+  background-position: 30px 30px;
+  background-repeat: no-repeat;
+  opacity: 0.1;
+}
