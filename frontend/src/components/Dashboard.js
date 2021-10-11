@@ -127,6 +127,7 @@ function Dashboard(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [appBarStr, setAppBarStr] = React.useState("유사도 순위 [누적순매수-종가]");
   // const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const container = window !== undefined ? () => window().document.body : undefined;
 
@@ -138,13 +139,13 @@ function Dashboard(props) {
     <div>
       <div className={classes.toolbar} />
       <List>
-        <ListItem button key='상관계수차트' component={Link} to={'/chart'}>
+        <ListItem button key='유사도순위' onClick={() => {setAppBarStr("유사도 순위 [누적순매수-종가]")}} component={Link} to={'/chart'}>
           <ListItemIcon><ShowChartIcon /></ListItemIcon>
-          <ListItemText primary='상관계수차트' />
+          <ListItemText primary='유사도순위' />
         </ListItem>
-        <ListItem button key='종목분석' component={Link} to={'/search'}>
+        <ListItem button key='종목검색' onClick={() => {setAppBarStr("종목 검색")}} component={Link} to={'/search'}>
           <ListItemIcon><ScreenSearchDesktopIcon /></ListItemIcon>
-          <ListItemText primary='종목분석' />
+          <ListItemText primary='종목검색' />
         </ListItem>
 
       </List>
@@ -168,7 +169,8 @@ function Dashboard(props) {
           </IconButton>
           <Avatar alt="Remy Sharp" sx={{ mr: 2, border: 0 }} src="/images/indexduck_logo.png" />
           <Typography variant="h6" noWrap>
-            유사도 순위 [누적순매수-종가]
+            {appBarStr}
+            {/* 유사도 순위 [누적순매수-종가] */}
           </Typography>
 
 
