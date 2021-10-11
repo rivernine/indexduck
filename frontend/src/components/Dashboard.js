@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -26,6 +26,8 @@ import Avatar from '@mui/material/Avatar';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import CoefficientChartGridContainer from './chart/CoefficientChartGridContainer';
 import SearchContainer from './search/SearchContainer';
+
+import { Route, Link } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -75,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(4),
   },
   logo: {
-    display: "block", 
+    display: "block",
     margin: "10px 0px 10px auto",
     borderRadius: '9px',
     width: "250px",
@@ -127,9 +129,6 @@ function Dashboard(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   // const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const container = window !== undefined ? () => window().document.body : undefined;
-  const [containerBody, setContainerBody] = useState("search");
-  const onClickChart = () => setContainerBody("chart");
-  const onClickSearch = () => setContainerBody("search");
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -139,19 +138,17 @@ function Dashboard(props) {
     <div>
       <div className={classes.toolbar} />
       <List>
-        {/* <ListItem button key='상관계수차트' component={Link} to={'/dashboard'}> */}
-        <ListItem button key='상관계수차트' onClick={onClickChart}>
+        <ListItem button key='상관계수차트' component={Link} to={'/chart'}>
           <ListItemIcon><ShowChartIcon /></ListItemIcon>
           <ListItemText primary='상관계수차트' />
         </ListItem>
-        {/* <ListItem button key='종목분석' component={Link} to={'/search'}> */}
-        <ListItem button key='종목분석' onClick={onClickSearch}>
-          <ListItemIcon><ScreenSearchDesktopIcon/></ListItemIcon>
+        <ListItem button key='종목분석' component={Link} to={'/search'}>
+          <ListItemIcon><ScreenSearchDesktopIcon /></ListItemIcon>
           <ListItemText primary='종목분석' />
         </ListItem>
-        
+
       </List>
- 
+
     </div>
   );
 
@@ -170,10 +167,10 @@ function Dashboard(props) {
             <MenuIcon />
           </IconButton>
           <Avatar alt="Remy Sharp" sx={{ mr: 2, border: 0 }} src="/images/indexduck_logo.png" />
-          <Typography  variant="h6" noWrap>
+          <Typography variant="h6" noWrap>
             유사도 순위 [누적순매수-종가]
           </Typography>
-          
+
 
 
         </Toolbar>
@@ -210,13 +207,12 @@ function Dashboard(props) {
         </Hidden>
       </nav>
       <main className={classes.content}>
-        <div className={classes.toolbar} id="back-to-top-anchor"/>
+        <div className={classes.toolbar} id="back-to-top-anchor" />
+
         <Container maxWidth="xl" className={classes.container}>
-          {
-            containerBody === "chart"
-              ? <CoefficientChartGridContainer />
-              : <SearchContainer />
-          }
+          <Route path="/" component={CoefficientChartGridContainer} exact />
+          <Route path="/chart" component={CoefficientChartGridContainer} />
+          <Route path="/search" component={SearchContainer} />
           <Box pt={4}>
             <Copyright />
           </Box>
