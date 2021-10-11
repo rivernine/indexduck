@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function createChart(id, date, closeNorm, indVolCumNorm, insVolCumNorm, forVolCumNorm, etcVolCumNorm) {
-  return {id, date, closeNorm, indVolCumNorm, insVolCumNorm, forVolCumNorm, etcVolCumNorm}
+  return { id, date, closeNorm, indVolCumNorm, insVolCumNorm, forVolCumNorm, etcVolCumNorm }
 }
 
 function createTicker(title, ticker, name, market) {
@@ -80,15 +80,16 @@ function SearchContainer(props) {
   const [selectedInfo, setSelectedInfo] = useState([])
   const [selectedHistory, setSelectedHistory] = useState([])
 
-  function onChange(event, value){
+  function onChange(event, value) {
     if (value !== null) {
+      sessionStorage.setItem("searchTicker", value.ticker)
       setSelected(value.name)
       fetch('/getStock?ticker=' + value.ticker + "&period=3")
         .then(res => res.json())
         .then(json => {
           var id = 0
           var result = []
-          for (const item of json) 
+          for (const item of json)
             result.push(createChart(id++, item.date, item.closeNorm, item.indVolCumNorm, item.insVolCumNorm, item.forVolCumNorm, item.etcVolCumNorm))
           setSelectedChart(result)
         })
@@ -103,7 +104,7 @@ function SearchContainer(props) {
         .then(json => {
           var id = 0
           var result = []
-          for (const item of json) 
+          for (const item of json)
             result.push(createHistory(id++, item.date, item.indVol, item.insVol, item.forVol, item.etcVol))
           setSelectedHistory(result)
         })
@@ -117,16 +118,16 @@ function SearchContainer(props) {
   }
 
   useEffect(() => {
-    if (!mounted){
-    fetch('/getStockList')
-      .then(res => res.json())
-      .then(json => {
-        var result = [];
-        for (const item of json) 
-          result.push(createTicker("[" + item.ticker + "] " + item.name, item.ticker, item.name, item.market));
-        setStocks(result)
-      })
-    setMounted(true)
+    if (!mounted) {
+      fetch('/getStockList')
+        .then(res => res.json())
+        .then(json => {
+          var result = [];
+          for (const item of json)
+            result.push(createTicker("[" + item.ticker + "] " + item.name, item.ticker, item.name, item.market));
+          setStocks(result)
+        })
+      setMounted(true)
     }
   }, [mounted])
 
@@ -137,7 +138,7 @@ function SearchContainer(props) {
   }, [selectedValue])
 
   useEffect(() => {
-    setSelectedValue(stocks.find((stock) => stock.ticker === "005930"))
+    setSelectedValue(stocks.find((stock) => stock.ticker === sessionStorage.getItem("searchTicker")))
   }, [stocks])
 
 
@@ -152,7 +153,7 @@ function SearchContainer(props) {
                 size="small"
                 options={stocks}
                 getOptionLabel={(option) => option.title}
-                onChange={(event, value) => {onChange(event, value)}}
+                onChange={(event, value) => { onChange(event, value) }}
                 renderInput={(params) => (
                   <TextField
                     {...params}
@@ -164,7 +165,7 @@ function SearchContainer(props) {
                 )}
               />
               <Paper className={classes.coPaper}>
-                <StockChart selected={selected} selectedChart={selectedChart}/>
+                <StockChart selected={selected} selectedChart={selectedChart} />
               </Paper>
             </Paper>
           </Grid>

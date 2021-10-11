@@ -78,7 +78,7 @@ function StockInfoTable(props) {
             disableColumnFilter
             disableColumnMenu={true}
             rows={props.selectedInfo}
-            rowsPerPageOptions={[1]}
+            rowsPerPageOptions={[100]}
             columns={columns.map((column) => ({
               ...column,
               sortable: false,

@@ -11,13 +11,20 @@ class CoefficientChartGridContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      market: "KOSPI",
-      minCap: "1000000000",
-      maxCap: "10000000000000000",
-      minPer: "0",
-      maxPer: "1000000",
-      investor: "ind",
-      period: "3",
+      market: sessionStorage.getItem("market"),
+      minCap: sessionStorage.getItem("minCap"),
+      maxCap: sessionStorage.getItem("maxCap"),
+      minPer: sessionStorage.getItem("minPer"),
+      maxPer: sessionStorage.getItem("maxPer"),
+      investor: sessionStorage.getItem("investor"),
+      period: sessionStorage.getItem("period"),
+      // market: "KOSPI",
+      // minCap: "1000000000",
+      // maxCap: "10000000000000000",
+      // minPer: "0",
+      // maxPer: "1000000",
+      // investor: "ind",
+      // period: "3",
       entireList: [],
       displayList: [],
       starList: [],
@@ -34,30 +41,37 @@ class CoefficientChartGridContainer extends React.Component {
   }
 
   handleMarketChange = (event) => {
+    sessionStorage.setItem("market", event.target.value)
     this.setState({market: event.target.value});
   };
   
   handleMinCapChange = (event) => {
+    sessionStorage.setItem("minCap", event.target.value)
     this.setState({minCap: event.target.value});
   };
   
   handleMaxCapChange = (event) => {
+    sessionStorage.setItem("maxCap", event.target.value)
     this.setState({maxCap: event.target.value});
   };
   
   handleMinPerChange = (event) => {
+    sessionStorage.setItem("minPer", event.target.value)
     this.setState({minPer: event.target.value});
   };
   
   handleMaxPerChange = (event) => {
+    sessionStorage.setItem("maxPer", event.target.value)
     this.setState({maxPer: event.target.value});
   };
 
   handleInvestorChange = (event) => {
+    sessionStorage.setItem("investor", event.target.value)
     this.setState({investor: event.target.value});
   };
   
   handlePeriodChange = (event) => {
+    sessionStorage.setItem("period", event.target.value)
     this.setState({period: event.target.value});
   };
 
