@@ -12,6 +12,7 @@ import StockInfoTable from './StockInfoTable';
 import StockHistoryTable from './StockHistoryTable';
 import StockChart from './StockChart';
 
+
 const useStyles = makeStyles((theme) => ({
   coPaper: {
     padding: theme.spacing(2),
@@ -75,16 +76,18 @@ function SearchContainer(props) {
   const [mounted, setMounted] = useState(false)
   const [stocks, setStocks] = useState([])
   const [selected, setSelected] = useState("")
+  const [initValue, setInitValue] = useState(undefined)
   const [selectedValue, setSelectedValue] = useState(undefined)
   const [selectedChart, setSelectedChart] = useState([])
   const [selectedInfo, setSelectedInfo] = useState([])
   const [selectedHistory, setSelectedHistory] = useState([])
 
   function onChange(event, value) {
-    if (value !== null) {
+    if (value !== null && value !== undefined) {
       sessionStorage.setItem("searchTicker", value.ticker)
       setSelected(value.name)
-      fetch('/getStock?ticker=' + value.ticker + "&period=3")
+      setSelectedValue(value)
+      fetch('/getStock?ticker=' + value.ticker + "&period=" + sessionStorage.getItem("searchPeriod"))
         .then(res => res.json())
         .then(json => {
           var id = 0
@@ -114,6 +117,7 @@ function SearchContainer(props) {
       setSelectedChart([])
       setSelectedInfo([])
       setSelectedHistory([])
+      setSelectedValue(undefined)
     }
   }
 
@@ -132,15 +136,16 @@ function SearchContainer(props) {
   }, [mounted])
 
   useEffect(() => {
-    if (selectedValue !== undefined) {
-      onChange(null, selectedValue)
+    if (initValue !== undefined) {
+      onChange(null, initValue)
     }
-  }, [selectedValue])
+  }, [initValue])
 
   useEffect(() => {
-    setSelectedValue(stocks.find((stock) => stock.ticker === sessionStorage.getItem("searchTicker")))
+    var stock = stocks.find((stock) => stock.ticker === sessionStorage.getItem("searchTicker"))
+    setInitValue(stock)
+    setSelectedValue(stock)
   }, [stocks])
-
 
   return (
     <Container maxWidth="xl">
@@ -165,7 +170,7 @@ function SearchContainer(props) {
                 )}
               />
               <Paper className={classes.coPaper}>
-                <StockChart selected={selected} selectedChart={selectedChart} />
+                <StockChart selected={selected} selectedChart={selectedChart} selectedValue={selectedValue} onChange={onChange} />
               </Paper>
             </Paper>
           </Grid>

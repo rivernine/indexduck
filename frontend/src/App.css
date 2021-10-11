@@ -45,14 +45,14 @@
   content: "";
   display: block;
   pointer-events: none;
-  width: 300px;
+  width: 860px;
   height: 300px;
   position: absolute;
   top: 50px;
   right: 5px;      
-  background-image: url("./indexduck_logo.png");
-  background-size: auto;
-  background-position: 30px 30px;
+  background-image: url("./indexduck_logo_in_circle.png");
+  background-size: 300px 300px;
+  background-position: center center;
   background-repeat: no-repeat;
   opacity: 0.1;
 }

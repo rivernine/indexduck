@@ -34,6 +34,8 @@ const darkTheme = createTheme({
 
 function App() {
   sessionStorage.setItem("searchTicker", "005930")
+  sessionStorage.setItem("searchPeriod", "3")
+
   sessionStorage.setItem("market", "KOSPI")
   sessionStorage.setItem("minCap", "1000000000")
   sessionStorage.setItem("maxCap", "10000000000000000")
