@@ -6,11 +6,11 @@ import clsx from 'clsx';
 const useStyles = makeStyles({
   root: {
     '& .super-app.negative': {
-      color: 'rgba(157, 255, 118, 0.49)',
+      color: '#456FC1',
       fontWeight: '600',
     },
     '& .super-app.positive': {
-      color: '#d47483',
+      color: '#FF574A',
       fontWeight: '600',
     },
   },
@@ -22,7 +22,7 @@ export default function StockHistoryTable(props) {
     { 
       field: 'date', 
       headerName: '일자', 
-      width: 100 
+      width: 100
     },
     { 
       field: 'indVol', 
@@ -47,7 +47,7 @@ export default function StockHistoryTable(props) {
     {
       field: 'forVol',
       headerName: '외국인',
-      width: 100,
+      width: 90,
       cellClassName: (params) =>
       clsx('super-app', {
         negative: params.value < 0,
@@ -57,12 +57,13 @@ export default function StockHistoryTable(props) {
     {
       field: 'etcVol',
       headerName: '기타법인',
-      width: 110,
+      width: 90,
       cellClassName: (params) =>
       clsx('super-app', {
         negative: params.value < 0,
         positive: params.value > 0,
       }),
+      menubar: null
     },
     
   ]
@@ -73,7 +74,10 @@ export default function StockHistoryTable(props) {
         <div style={{ flexGrow: 1 }} className={classes.root}>
         <DataGrid 
             disableColumnFilter
+            disableColumnMenu={true}
             rows={props.selectedHistory}
+            rowsPerPageOptions={[100]}
+            
             columns={columns.map((column) => ({
               ...column,
               sortable: false,

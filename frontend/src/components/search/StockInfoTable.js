@@ -7,12 +7,12 @@ function StockInfoTable(props) {
     {
       field: 'ticker',
       headerName: '티커',
-      width: 90
+      width: 70
     },
     {
       field: 'name',
       headerName: '이름',
-      width: 150
+      width: 130
     },
     {
       field: 'market',
@@ -23,43 +23,50 @@ function StockInfoTable(props) {
       field: 'cap',
       headerName: '시가총액',
       type: 'number',
-      width: 150,
+      width: 160,
     },
     {
       field: 'bps',
       headerName: 'BPS',
       type: 'number',
-      width: 85,
+      width: 80,      
     },
+    
     {
       field: 'per',
       headerName: 'PER',
       type: 'number',
-      width: 85,
+      width: 80,
+      valueFormatter: (params) => {
+        return parseFloat(params.value).toFixed(2)
+      },
     },
     {
       field: 'pbr',
       headerName: 'PBR',
       type: 'number',
-      width: 85,
+      width: 80,
+      valueFormatter: (params) => {
+        return parseFloat(params.value).toFixed(2)
+      },
     },
     {
       field: 'eps',
       headerName: 'EPS',
       type: 'number',
-      width: 85,
+      width: 80,
     },
     {
       field: 'div',
       headerName: 'DIV',
       type: 'number',
-      width: 85,
+      width: 80,
     },
     {
       field: 'dps',
       headerName: 'DPS',
       type: 'number',
-      width: 85,
+      width: 80,
     },
   ]
 
@@ -69,7 +76,9 @@ function StockInfoTable(props) {
         <div style={{ flexGrow: 1 }}>
           <DataGrid
             disableColumnFilter
+            disableColumnMenu={true}
             rows={props.selectedInfo}
+            rowsPerPageOptions={[1]}
             columns={columns.map((column) => ({
               ...column,
               sortable: false,
