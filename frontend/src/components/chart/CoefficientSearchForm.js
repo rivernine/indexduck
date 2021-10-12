@@ -162,6 +162,7 @@ export default function CoefficientSearchForm(props) {
               id="demo-simple-select"
               value={props.maxPer}
               onChange={props.handleMaxPerChange}
+              // {(e) => props.handleMaxPerChange(e.target.value)}
             >
               <MenuItem value={'1'}>1</MenuItem>
               <MenuItem value={'10'}>10</MenuItem>

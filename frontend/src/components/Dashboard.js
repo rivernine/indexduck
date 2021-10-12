@@ -30,6 +30,8 @@ import SearchContainer from './search/SearchContainer';
 import { Route, Link } from 'react-router-dom';
 
 const drawerWidth = 240;
+const contact = `contact: indexduck@gmail.com
+  `;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -82,6 +84,10 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '9px',
     width: "250px",
     height: "45px",
+  },
+  bottomPush: {
+    position: "fixed",
+    bottom: 0,
   }
 }));
 
@@ -127,7 +133,7 @@ function Dashboard(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [appBarStr, setAppBarStr] = React.useState("유사도 순위 [누적순매수-종가]");
+  const [appBarStr, setAppBarStr] = React.useState("유사도순위 <누적순매수✖종가>");
   // const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const container = window !== undefined ? () => window().document.body : undefined;
 
@@ -137,19 +143,40 @@ function Dashboard(props) {
 
   const drawer = (
     <div>
-      <div className={classes.toolbar} />
+      <div className={classes.toolbar} >
+        <Box 
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            pt: 1
+          }}
+        >
+          <img src="/images/whitelabel.png"  />
+        </Box>
+      </div>
       <List>
-        <ListItem button key='유사도순위' onClick={() => {setAppBarStr("유사도 순위 [누적순매수-종가]")}} component={Link} to={'/chart'}>
+        <ListItem button key='유사도순위' onClick={() => {setAppBarStr("유사도순위 <누적순매수✖종가>")}} component={Link} to={'/chart'}>
           <ListItemIcon><ShowChartIcon /></ListItemIcon>
           <ListItemText primary='유사도순위' />
         </ListItem>
-        <ListItem button key='종목검색' onClick={() => {setAppBarStr("종목 검색")}} component={Link} to={'/search'}>
+        <ListItem button key='종목검색' onClick={() => {setAppBarStr("종목검색")}} component={Link} to={'/search'}>
           <ListItemIcon><ScreenSearchDesktopIcon /></ListItemIcon>
           <ListItemText primary='종목검색' />
         </ListItem>
 
       </List>
-
+      <div className={classes.bottomPush}>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            p: 2
+          }}
+        >
+          <Typography component="p" variant="subtitle3" color="initial" noWrap align="center" style={{whiteSpace: 'pre-line'}}>{contact}</Typography>
+        </Box>
+      </div>
     </div>
   );
 
